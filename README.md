@@ -20,7 +20,7 @@ A repo meant for providing tools for security testing that is comically insecure
 ### Workload-security-evaluator
 
 1. Is forked from [DataDog](https://github.com/DataDog/workload-security-evaluator)
-2. 
+2. Is used for running tests from [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team)
 
 ## Deployment:
 
