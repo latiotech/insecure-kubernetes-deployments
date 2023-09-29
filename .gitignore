@@ -1,0 +1,55 @@
+# Python .gitignore
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.egg-info/
+*.egg
+*.log
+*.pot
+*.db
+*.sqlite
+
+# Dist directory used for packaging
+dist/
+
+# Site directory used for Sphinx documentation
+docs/_build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environment and virtual directories
+env/
+venv/
+ENV/
+
+# IDE - PyCharm, VS Code, etc
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Kubernetes .gitignore
+# Commonly, you'd ignore secrets or specific configurations that shouldn't be committed.
+# This will depend on how you manage your Kubernetes configurations.
+
+# Ignore Helm chart dependencies
+charts/*/charts/
+charts/*/tmpcharts/
+charts/*/*.tgz
+
+# Ignore temporary kubeconfig files
+kubeconfig
+
+# Local override files
+*kustomize.yaml
+*override.yaml
+
+# If using sealed secrets, ignore the private key
+private-key.*.pem
+
+# Add any other Kubernetes-related files/directories that you want to exclude.
