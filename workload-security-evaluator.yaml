@@ -15,13 +15,13 @@ spec:
         app: workload-security-evaluator
     spec:
       containers:
-      - image: confusedcrib/workload-security-evaluator:1
+      - image: confusedcrib/workload-security-evaluator:latest
         name: workload-security-evaluator
         env:
         - name: AWS_ACCESS_KEY_ID
-          value: AKIAIOSFODNN7EXAMPLE
+          value: AKIAIOSFODNN72HYSDD8
         - name: AWS_SECRET_ACCESS_KEY
-          value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYeh2g7ykyu8
         securityContext:
           privileged: true
         volumeMounts:

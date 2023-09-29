@@ -15,11 +15,11 @@ spec:
         app: insecure-app
     spec:
       containers:
-      - image: confusedcrib/insecure-app:3
+      - image: confusedcrib/insecure-app:latest
         name: insecure-app
         env:
         - name: AWS_ACCESS_KEY_ID
-          value: AKIAIOSFODNN7EXAMPLE
+          value: AKIAIOSFODNN72HYSDD8
         - name: AWS_SECRET_ACCESS_KEY
           value: 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
         securityContext:
