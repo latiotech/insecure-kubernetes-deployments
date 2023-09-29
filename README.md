@@ -1,6 +1,6 @@
 # Insecure Kubernetes Deployments
 
-A repo meant for providing tools for security testing that is comically insecure
+A repo meant for providing tools for security testing that is comically insecure. Another great tool is [Kubernetes Goat](https://github.com/madhuakula/kubernetes-goat), but I wanted more of a playground and less complexity.
 
 ## This Repo Contains the following issues:
 
