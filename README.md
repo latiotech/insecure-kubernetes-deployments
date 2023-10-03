@@ -1,6 +1,6 @@
 # Insecure Kubernetes Deployments
 
-A repo meant for providing tools for security testing that is comically insecure
+A repo meant for providing tools for security testing that is comically insecure. Another great tool is [Kubernetes Goat](https://github.com/madhuakula/kubernetes-goat), but I wanted more of a playground and less complexity.
 
 ## This Repo Contains the following issues:
 
@@ -46,7 +46,6 @@ Get pod name, `kubectl get pods -n insecure-app` or `kubectl get pods -n workloa
 For testing insecure-app, run `kubectl port-forward pod/[POD-NAME] 8080:8080 -n insecure-app`. You can now test in your browser at `http://localhost:8080/`
 
 For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security-evaluator -- /bin/bash`, then `pwsh` to being invoking tests such as `Invoke-AtomicTest T1105-27 -ShowDetails`
-
 
 # Testing 
 
