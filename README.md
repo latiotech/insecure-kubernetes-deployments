@@ -51,17 +51,17 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
 
 ## Misconfigurations
 
-1. AWS creds in env variables - check
+1. AWS creds in env variables
 2. SSH port open - 50%
 3. SA credentials have ability to create new credentials
 4. Privileged container
-5. Docker socket mounted - check
+5. Docker socket mounted
 
 ## Runtime
 
-1. Run `python --version` and `ls -al` via the web form  - detects if it can tell that the python process is running bash commands - check
-2. Run `apt-get update` and `apt-get install nmap` - to check for package installs - check
-3. Scan the local port range to look for network detections - `nmap -sS 192.168.1.1-254` - check
+1. Run `python --version` and `ls -al` via the web form  - detects if it can tell that the python process is running bash commands
+2. Run `apt-get update` and `apt-get install hydra -y` - to check for package installs
+3. Scan the local port range to look for network detections - `nmap -sS 192.168.1.1-254`
 4. Try to spawn a reverse shell
     - bash into workload-security and run `apt-get install netcat`
     - `nc -lvnp 9001`
@@ -70,8 +70,8 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
 6. Upload ransomware python script `ransomware.py`- this will indicate the level of alerting, if it's new file, python, or specifics about the python
 7. Exec into the workload security evaluator pod with `k exec -it [POD-NAME] -n workload-security-evaluator -- /bin/bash`, then `pwsh`
 8. `Invoke-AtomicTest T1105-27` - download and run a file
-9. `Invoke-AtomicTest T1046-2` - run nmap - check
-10. `Invoke-AtomicTest T1053.003-2` - modify cron jobs - check
+9. `Invoke-AtomicTest T1046-2` - run nmap
+10. `Invoke-AtomicTest T1053.003-2` - modify cron jobs
 11. `Invoke-AtomicTest T1070.003-1` - clear bash history
-12. `Invoke-AtomicTest T1611-1,2` - Container escape - check
+12. `Invoke-AtomicTest T1611-1,2` - Container escape
 
