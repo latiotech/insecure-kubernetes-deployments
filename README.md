@@ -74,4 +74,5 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
 10. `Invoke-AtomicTest T1053.003-2` - modify cron jobs
 11. `Invoke-AtomicTest T1070.003-1` - clear bash history
 12. `Invoke-AtomicTest T1611-1,2` - Container escape
+13. Check agent utilization with `k top pod --all-namespaces`
 
