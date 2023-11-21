@@ -17,7 +17,7 @@ RUN apt-get update && \
 # Create /app directory and set as working directory
 RUN mkdir /app
 WORKDIR /app
-COPY app.py /app/
+ADD ./insecure-app/app.py /app/
 
 # Create an uploads directory
 RUN mkdir /uploads
