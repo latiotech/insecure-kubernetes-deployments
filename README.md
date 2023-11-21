@@ -52,14 +52,14 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
 ## Misconfigurations
 
 1. AWS creds in env variables
-2. SSH port open - 50%
+2. SSH port open
 3. SA credentials have ability to create new credentials
 4. Privileged container
 5. Docker socket mounted
 
 ## Runtime
 
-1. Run `python --version` and `ls -al` via the web form  - detects if it can tell that the python process is running bash commands
+1. Run `python3 --version` and `ls -al` via the web form  - detects if it can tell that the python process is running bash commands
 2. Run `apt-get update` and `apt-get install hydra -y` - to check for package installs
 3. Scan the local port range to look for network detections - `nmap -sS 192.168.1.1-254`
 4. Try to spawn a reverse shell
