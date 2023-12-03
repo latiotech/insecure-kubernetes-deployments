@@ -36,5 +36,5 @@ jobs:
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
-        python LAST/LAST.py partial . ${{ github.base_ref }} ${{ github.head_ref }}
+        python LAST/LAST.py partial-github . ${{ github.base_ref }} ${{ github.head_ref }}
 
