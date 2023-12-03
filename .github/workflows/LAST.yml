@@ -30,3 +30,6 @@ jobs:
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: python LAST/LAST.py partial .
+
+    - name: where
+      run: pwd
