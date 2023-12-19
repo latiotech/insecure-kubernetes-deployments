@@ -1,3 +1,4 @@
 cryptography==3.3.2
 requests==2.25.1
 pywin32==300
+security~=1.2.0
