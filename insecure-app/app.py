@@ -1,6 +1,10 @@
 from flask import Flask, request, render_template_string, send_from_directory
 import subprocess
 import os
+import urllib
+import http.client
+
+conn = http.client.HTTPConnection("localhost", 80)
 
 app = Flask(__name__)
 
@@ -20,9 +24,9 @@ def index():
             uploaded_file = request.files['file']
             uploaded_file.save(os.path.join('/uploads', uploaded_file.filename))
             output = f"File {uploaded_file.filename} uploaded successfully!"
-        elif 'printenv' in request.form:
-            env_output = "\n".join([f"{key}: {value}" for key, value in os.environ.items()])
-            output = f"Environment Variables:\n{env_output}"
+        elif 'printenv' in request.form: 
+            env_output = "\n".join([f"{key}: {value}" for key, value in os.environ.items()]) 
+            output = f"Environment Variables:\n{env_output}" 
 
     return render_template_string("""
         <h1>Intentionally Insecure App</h1>

@@ -22,6 +22,8 @@ spec:
           value: AKIAIOSFODNN72HYSDD8
         - name: AWS_SECRET_ACCESS_KEY
           value: wJalrXUtnFEMI/K7MDENG/bPxRfiCYeh2g7ykyu8
+        - name: POSTGRES_AUTH
+          value: insecure-app:insecure-app@tcp(insecure-app-postgres:5432)/insecure-app?sslmode=disable
         securityContext:
           privileged: true
         volumeMounts:                   
@@ -49,6 +51,9 @@ spec:
   - name: ssh
     port: 22
     targetPort: 22
+  - name: telnet
+    port: 23
+    targetPort: 23
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
