@@ -1,11 +1,11 @@
 <p align="center"><img src="https://raw.githubusercontent.com/latiotech/LAST/main/logo.png" width="150" ><br><h1 align="center">Insecure Kubernetes App</h1>
 </p>
 
-![GitHub stars](https://img.shields.io/github/stars/latiotech/LAST?style=social)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/latiotech/LAST)
-![GitHub issues](https://img.shields.io/github/issues/latiotech/LAST)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/latiotech/LAST)
-![GitHub](https://img.shields.io/github/license/latiotech/LAST)
+![GitHub stars](https://img.shields.io/github/stars/latiotech/insecure-kubernetes-deployments?style=social)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/latiotech/insecure-kubernetes-deployments)
+![GitHub issues](https://img.shields.io/github/issues/latiotech/insecure-kubernetes-deployments)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/latiotech/insecure-kubernetes-deployments)
+![GitHub](https://img.shields.io/github/license/latiotech/insecure-kubernetes-deployments)
 [![Discord](https://img.shields.io/discord/1119809850239614978)](https://discord.gg/k5aBQ55j5M)
 ![Docker Pulls](https://img.shields.io/docker/pulls/confusedcrib/insecure-app)
 
