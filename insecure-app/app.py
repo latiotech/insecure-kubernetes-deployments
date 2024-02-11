@@ -7,6 +7,13 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     output = ''
+      # Prepare database connection
+    # SQL Injection?
+    db = pymysql.connect("localhost")
+    cursor = db.cursor()
+
+    # Execute the vulnerable SQL query concatenating user-provided input.
+    cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
     if request.method == 'POST':
         if 'command' in request.form:
             cmd = request.form['command']

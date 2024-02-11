@@ -39,28 +39,33 @@ A repo meant for providing tools for security testing that is comically insecure
 
 ## Deployment:
 
-1. Create the namespaces `insecure-app` and `workload-security-evaluator`
+1. Make sure you have Terraform, Helm, AWS CLI, eksctl and a valid AWS user configured
 
-```
-kubectl create namespace insecure-app
-kubectl create namespace workload-security-evaluator
-```
+2. `cd terraform`
 
-2. Apply the deployment yamls
+3. `terraform init` `terraform plan` `terraform apply` This creates two EKS node groups, one publicly accessible over SSH and another private. These will run small instances, be sure to `terraform destroy` when you're done for minimal fees. This takes about 15 minutes.
 
+4. 
 ```
-kubectl apply -f busybox.yaml
-kubectl apply -f insecure-app.yaml
-kubectl apply -f workload-security-evaluator.yaml
+aws eks --region $(terraform output -raw region) update-kubeconfig \
+    --name $(terraform output -raw cluster_name)
 ```
 
-3. To test in these pods:
+5. Grant your user access to the kubernetes cluster you created - through the Console it's adding the AmazonEKSAdminPolicy and AmazonEKSClusterAdminPolicy to your user. This could be automated with terraform to create a user and a role and output them, but it would require adding additional AWS profiles which I thought might be more confusing unless someone has a better solution.
+
+6. `cd ../insecure-chart/`
+
+7. helm install insecure-app . --create-namespace --namespace=insecure-app
+
+8. To test in these pods:
 
 Get pod name, `kubectl get pods -n insecure-app` or `kubectl get pods -n workload-security-evaluator`
 
 For testing insecure-app, run `kubectl port-forward pod/[POD-NAME] 8080:8080 -n insecure-app`. You can now test in your browser at `http://localhost:8080/`
 
 For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security-evaluator -- /bin/bash`, then `pwsh` to being invoking tests such as `Invoke-AtomicTest T1105-27 -ShowDetails`
+
+9. `terraform destroy` when you're done!
 
 # Testing 
 
@@ -90,5 +95,8 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
 11. `Invoke-AtomicTest T1070.003-1` - clear bash history
 12. `Invoke-AtomicTest T1611-1,2` - Container escape
 13. Check agent utilization with `k top pod --all-namespaces`
+<<<<<<< HEAD
+=======
 
 Readme change
+>>>>>>> b8e1c4d61873ed7566d33dcd8bd4b76bcf86e450

@@ -54,3 +54,11 @@ private-key.*.pem
 
 # Add any other Kubernetes-related files/directories that you want to exclude.
 spyderbat/
+
+# Terraform Details
+terraform/.terraform
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfvars
+terraform/.terraform.lock.hcl
+terraform/.terraform.tfstate.lock.info
