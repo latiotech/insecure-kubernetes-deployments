@@ -1,3 +1,18 @@
+<p align="center"><img src="https://raw.githubusercontent.com/latiotech/LAST/main/logo.png" width="150" ><br><h1 align="center">Insecure Kubernetes App</h1>
+</p>
+
+![GitHub stars](https://img.shields.io/github/stars/latiotech/insecure-kubernetes-deployments?style=social)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/latiotech/insecure-kubernetes-deployments)
+![GitHub issues](https://img.shields.io/github/issues/latiotech/insecure-kubernetes-deployments)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/latiotech/insecure-kubernetes-deployments)
+![GitHub](https://img.shields.io/github/license/latiotech/insecure-kubernetes-deployments)
+[![Discord](https://img.shields.io/discord/1119809850239614978)](https://discord.gg/k5aBQ55j5M)
+![Docker Pulls](https://img.shields.io/docker/pulls/confusedcrib/insecure-app)
+
+Test every type of configuration scanner against a single repo that's comically insecure with documented issues
+
+[About Latio](https://latio.tech)  
+
 # Insecure Kubernetes Deployments
 
 A repo meant for providing tools for security testing that is comically insecure. Another great tool is [Kubernetes Goat](https://github.com/madhuakula/kubernetes-goat), but I wanted more of a playground and less complexity.
@@ -80,3 +95,8 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
 11. `Invoke-AtomicTest T1070.003-1` - clear bash history
 12. `Invoke-AtomicTest T1611-1,2` - Container escape
 13. Check agent utilization with `k top pod --all-namespaces`
+<<<<<<< HEAD
+=======
+
+Readme change
+>>>>>>> b8e1c4d61873ed7566d33dcd8bd4b76bcf86e450
