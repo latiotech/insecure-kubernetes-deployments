@@ -21,7 +21,7 @@ Test every type of configuration scanner against a single repo that's comically 
 
 This will create an EKS cluster with some insecure application pods for testing.
 
-1. Make sure you have Terraform, Helm, AWS CLI, eksctl and a valid AWS user configured
+1. Make sure you have [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli), [Helm](https://helm.sh/docs/intro/install/), [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html), [eksctl](https://eksctl.io/installation/) and a valid AWS user configured
 
 2. Move to terraform directory, `cd terraform`
 
