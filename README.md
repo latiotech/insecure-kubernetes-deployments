@@ -33,7 +33,7 @@ aws eks --region $(terraform output -raw region) update-kubeconfig \
     --name $(terraform output -raw cluster_name)
 ```
 
-5. Grant your user access to the kubernetes cluster you created - through the Console it's adding the AmazonEKSAdminPolicy and AmazonEKSClusterAdminPolicy to your user. This could be automated with terraform to create a user and a role and output them, but it would require adding additional AWS profiles which I thought might be more confusing unless someone has a better solution. 
+5. Grant your user access to the kubernetes cluster you created - through the Console it's adding the AmazonEKSAdminPolicy and AmazonEKSClusterAdminPolicy to your user. [Console](https://console.aws.amazon.com/eks/home#/clusters) > Access > Create access entry > Select your current user > Add AmazonEKSAdminPolicy and AmazonEKSClusterAdminPolicy. I didn't test this, but there's probably a one liner to do this with CLI like `aws eks create-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:user/my-user --type Standard --username my-user`
 
 6. Move to the helm chart directory `cd ../insecure-chart/`
 
