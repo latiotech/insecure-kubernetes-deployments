@@ -17,12 +17,18 @@ RUN apt-get update && \
 # Create /app directory and set as working directory
 RUN mkdir /app
 WORKDIR /app
-ADD ./insecure-app/app.py /app/
+
+# Add application and requirements.txt
+ADD ./app.py /app/
+ADD ./requirements.txt /app/ 
+
+# Install Python packages from requirements.txt
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Create an uploads directory
 RUN mkdir /uploads
 
-# Install Flask
-RUN pip3 install Flask
+# Install Flask in a weird way
+RUN python3 -m pip install Flask
 
 CMD ["python3", "/app/app.py"]
