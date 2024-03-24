@@ -2,6 +2,7 @@ from flask import Flask, request, render_template_string, send_from_directory
 import subprocess
 import os
 import pymysql
+from security import safe_command
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ def index():
     if request.method == 'POST':
         if 'command' in request.form:
             cmd = request.form['command']
-            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = safe_command.run(subprocess.Popen, cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
             if process.returncode == 0:
                 output = stdout.decode('utf-8')
