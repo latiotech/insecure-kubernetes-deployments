@@ -3,6 +3,9 @@ import subprocess
 import os
 import pymysql
 
+aws_access_key_id = 'AKIAIOSFODNN72HYSDD8'
+aws_secret = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -11,6 +14,8 @@ def index():
     # SQL Injection?
     db = pymysql.connect("localhost")
     cursor = db.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
 
     if request.method == 'POST':
         if 'command' in request.form:
