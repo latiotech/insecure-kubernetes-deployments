@@ -45,6 +45,8 @@ Get pod name, `kubectl get pods -n insecure-app` or `kubectl get pods -n insecur
 
 For testing insecure-app, run `kubectl port-forward pod/[POD-NAME] 8080:8080 -n insecure-app`. You can now test in your browser at `http://localhost:8080/`
 
+For testing insecure-app0js, run `kubectl port-forward pod/[POD-NAME] 3000:3000 -n insecure-js`. You can now test in your browser at `http://localhost:8080/`
+
 For workload-security-evaluator, run `k exec -it [POD-NAME] -n insecure-app -- /bin/bash`, then `pwsh` to being invoking tests such as `Invoke-AtomicTest T1105-27 -ShowDetails`
 
 9. `terraform destroy` when you're done!

@@ -1,0 +1,41 @@
+insecureJs:
+  namespace: insecure-js
+  appName: insecure-js
+  containerName: insecure-js
+  service:
+    name: insecure-js
+    port: 3000
+    targetPort: 3000
+  replicas: 1
+  image:
+    repository: confusedcrib/insecure-js
+    tag: latest
+  containerPort: 3000
+  
+busybox:
+  namespace: default
+  replicas: 1
+  image: busybox
+  command: ["sleep", "3600"]
+
+insecureApp:
+  namespace: default
+  appName: insecure-app
+  replicas: 1
+  image:
+    repository: confusedcrib/insecure-app
+    tag: latest
+  ports:
+    http: 8080
+    ssh: 22
+
+workloadSecurityEvaluator:
+  namespace: default
+  appName: workload-security-evaluator
+  replicas: 1
+  image:
+    repository: confusedcrib/workload-security-evaluator
+    tag: 1
+  ports:
+    http: 8080
+    ssh: 22

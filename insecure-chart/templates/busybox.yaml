@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: busybox-deployment
+  namespace: {{ .Values.busybox.namespace }}
   labels:
     app: busybox
 spec:
-  replicas: 1
+  replicas: {{ .Values.busybox.replicas }}
   selector:
     matchLabels:
       app: busybox
@@ -16,7 +17,5 @@ spec:
     spec:
       containers:
       - name: busybox
-        image: busybox
-        command:
-          - sleep
-          - "3600"
+        image: {{ .Values.busybox.image }}
+        command: {{ .Values.busybox.command }}

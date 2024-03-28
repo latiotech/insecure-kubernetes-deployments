@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.insecureJs.namespace | default "insecure-js" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.insecureJs.service.name | default "insecure-js" }}
+  namespace: {{ .Values.insecureJs.namespace | default "insecure-js" }}
+spec:
+  selector:
+    app: {{ .Values.insecureJs.appName | default "insecure-js" }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.insecureJs.service.port | default 3000 }}
+      targetPort: {{ .Values.insecureJs.service.targetPort | default 3000 }}
+  type: NodePort
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.insecureJs.appName | default "insecure-js" }}
+  namespace: {{ .Values.insecureJs.namespace | default "insecure-js" }}
+spec:
+  replicas: {{ .Values.insecureJs.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .Values.insecureJs.appName | default "insecure-js" }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.insecureJs.appName | default "insecure-js" }}
+    spec:
+      containers:
+        - name: {{ .Values.insecureJs.containerName | default "insecure-js" }}
+          image: "{{ .Values.insecureJs.image.repository }}:{{ .Values.insecureJs.image.tag | default "latest" }}"
+          ports:
+            - containerPort: {{ .Values.insecureJs.containerPort | default 3000 }}
+

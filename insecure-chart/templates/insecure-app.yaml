@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}--insecure-app
-  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.insecureApp.appName }}
+  namespace: {{ .Values.insecureApp.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.insecureApp.replicas }}
   selector:
     matchLabels:
-      app: insecure-app
+      app: {{ .Values.insecureApp.appName }}
   template:
     metadata:
       labels:
-        app: insecure-app
+        app: {{ .Values.insecureApp.appName }}
     spec:
       containers:
-      - image: confusedcrib/insecure-app:latest
-        name: insecure-app
+      - name: {{ .Values.insecureApp.appName }}
+        image: "{{ .Values.insecureApp.image.repository }}:{{ .Values.insecureApp.image.tag }}"
         env:
         - name: AWS_ACCESS_KEY_ID
           value: AKIAIOSFODNN72HYSDD8

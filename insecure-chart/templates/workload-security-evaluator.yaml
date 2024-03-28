@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}--workload-security-evaluator
-  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.workloadSecurityEvaluator.appName }}
+  namespace: {{ .Values.workloadSecurityEvaluator.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.workloadSecurityEvaluator.replicas }}
   selector:
     matchLabels:
-      app: workload-security-evaluator
+      app: {{ .Values.workloadSecurityEvaluator.appName }}
   template:
     metadata:
       labels:
-        app: workload-security-evaluator
+        app: {{ .Values.workloadSecurityEvaluator.appName }}
     spec:
       containers:
-      - image: confusedcrib/workload-security-evaluator:1
-        name: workload-security-evaluator
+      - name: {{ .Values.workloadSecurityEvaluator.appName }}
+        image: "{{ .Values.workloadSecurityEvaluator.image.repository }}:{{ .Values.workloadSecurityEvaluator.image.tag }}"
         env:
         - name: AWS_ACCESS_KEY_ID
           value: AKIAIOSFODNN72HYSDD8

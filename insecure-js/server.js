@@ -5,7 +5,7 @@ const _ = require('lodash');
 const url = require('url');
 const qs = require('querystring');
 
-const hostname = '127.0.0.1';
+const hostname = '0.0.0.0';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
