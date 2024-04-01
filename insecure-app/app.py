@@ -14,8 +14,8 @@ def index():
     # SQL Injection?
     db = sqlite3.connect("tutorial.db")
     cursor = db.cursor()
-    username = request.form.get('username')
-    password = request.form.get('password')
+    username = ''
+    password = ''
     try:
         cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
     except:
