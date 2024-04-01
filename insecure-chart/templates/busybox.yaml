@@ -17,5 +17,4 @@ spec:
     spec:
       containers:
       - name: busybox
-        image: {{ .Values.busybox.image }}
-        command: {{ .Values.busybox.command }}
+        image: busybox

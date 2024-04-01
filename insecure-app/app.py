@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template_string, send_from_directory
 import subprocess
 import os
-import pymysql
+import sqlite3
 
 aws_access_key_id = 'AKIAIOSFODNN72HYSDD8'
 aws_secret = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
@@ -12,11 +12,14 @@ app = Flask(__name__)
 def index():
     output = ''
     # SQL Injection?
-    db = pymysql.connect("myfakewebsite.com;Port=1234;Database=myDataBase;Uid=myUsername;Pwd=myPassword;";)
+    db = sqlite3.connect("tutorial.db")
     cursor = db.cursor()
-
-    cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
-
+    username = request.form.get('username')
+    password = request.form.get('password')
+    try:
+        cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
+    except:
+        pass
     if request.method == 'POST':
         if 'command' in request.form:
             cmd = request.form['command']
