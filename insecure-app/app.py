@@ -12,7 +12,7 @@ app = Flask(__name__)
 def index():
     output = ''
     # SQL Injection?
-    db = pymysql.connect("localhost")
+    db = pymysql.connect("myfakewebsite.com;Port=1234;Database=myDataBase;Uid=myUsername;Pwd=myPassword;";)
     cursor = db.cursor()
 
     cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
