@@ -38,6 +38,9 @@ spec:
       containers:
         - name: {{ .Values.insecureJs.containerName | default "insecure-js" }}
           image: "{{ .Values.insecureJs.image.repository }}:{{ .Values.insecureJs.image.tag | default "latest" }}"
+          env:
+            - name: NODE_OPTIONS
+              value: "--perf-basic-prof --interpreted-frames-native-stack"
           ports:
             - containerPort: {{ .Values.insecureJs.containerPort | default 3000 }}
 

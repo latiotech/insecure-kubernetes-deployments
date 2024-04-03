@@ -13,9 +13,9 @@ insecureJs:
   containerPort: 3000
   
 busybox:
-  namespace: default
+  namespace: busybox
   replicas: 1
-  image: busybox
+  image: busybox:1.35.0
   command: ["sleep", "3600"]
 
 insecureApp:
