@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "lodash": "^4.16.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0"
   }
 }
