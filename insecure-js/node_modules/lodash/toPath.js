@@ -3,8 +3,7 @@ var arrayMap = require('./_arrayMap'),
     isArray = require('./isArray'),
     isSymbol = require('./isSymbol'),
     stringToPath = require('./_stringToPath'),
-    toKey = require('./_toKey'),
-    toString = require('./toString');
+    toKey = require('./_toKey');
 
 /**
  * Converts `value` to a property path array.
@@ -27,7 +26,7 @@ function toPath(value) {
   if (isArray(value)) {
     return arrayMap(value, toKey);
   }
-  return isSymbol(value) ? [value] : copyArray(stringToPath(toString(value)));
+  return isSymbol(value) ? [value] : copyArray(stringToPath(value));
 }
 
 module.exports = toPath;

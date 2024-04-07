@@ -6,6 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN rm /usr/local/lib/node_modules/npm/node_modules/semver/package.json
+
 COPY . .
 
 EXPOSE 3000

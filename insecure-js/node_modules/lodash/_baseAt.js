@@ -5,17 +5,17 @@ var get = require('./get');
  *
  * @private
  * @param {Object} object The object to iterate over.
- * @param {string[]} paths The property paths to pick.
+ * @param {string[]} paths The property paths of elements to pick.
  * @returns {Array} Returns the picked elements.
  */
 function baseAt(object, paths) {
   var index = -1,
+      isNil = object == null,
       length = paths.length,
-      result = Array(length),
-      skip = object == null;
+      result = Array(length);
 
   while (++index < length) {
-    result[index] = skip ? undefined : get(object, paths[index]);
+    result[index] = isNil ? undefined : get(object, paths[index]);
   }
   return result;
 }

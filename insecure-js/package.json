@@ -1,8 +1,13 @@
 {
   "dependencies": {
-    "lodash": "^4.16.1"
+    "lodash": "4.16.1",
+    "semver": "5.4.1"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-rc.1"
+  },
+  "resolutions": {
+    "**/semver": "5.4.1",
+    "**/lodash": "4.16.1"
   }
 }
