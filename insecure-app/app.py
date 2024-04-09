@@ -17,6 +17,7 @@ def index():
     username = ''
     password = ''
     try:
+        #the % is what makes it bad, instead of passing them in as parameters
         cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
     except:
         pass
