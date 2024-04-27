@@ -7,7 +7,7 @@
 # To get a newer version, you will need to update the SHA.
 # You can also reference a tag or branch, but the action may change without warning.
 
-name: Publish Docker image
+name: Publish Docker images
 
 on:
   release:
@@ -15,7 +15,7 @@ on:
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker images to Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -27,17 +27,50 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
+      # Build and push insecure-app Docker image
+      - name: Extract metadata for insecure-app
+        id: meta-app
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: confusedcrib/insecure-app
-      
-      - name: Build and push Docker image
+          
+      - name: Build and push insecure-app Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
           file: ./insecure-app/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-app.outputs.tags }}
+          labels: ${{ steps.meta-app.outputs.labels }}
+
+      # Build and push insecure-java Docker image
+      - name: Extract metadata for insecure-java
+        id: meta-java
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: confusedcrib/insecure-java
+      
+      - name: Build and push insecure-java Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./insecure-java/Dockerfile
+          push: true
+          tags: ${{ steps.meta-java.outputs.tags }}
+          labels: ${{ steps.meta-java.outputs.labels }}
+
+      # Build and push insecure-js Docker image
+      - name: Extract metadata for insecure-js
+        id: meta-js
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: confusedcrib/insecure-js
+      
+      - name: Build and push insecure-js Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./insecure-js/Dockerfile
+          push: true
+          tags: ${{ steps.meta-js.outputs.tags }}
+          labels: ${{ steps.meta-js.outputs.labels }}

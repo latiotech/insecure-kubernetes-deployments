@@ -11,6 +11,20 @@ insecureJs:
     repository: confusedcrib/insecure-js
     tag: latest
   containerPort: 3000
+
+insecureJava:
+  namespace: insecure-java
+  appName: insecure-java
+  containerName: insecure-java
+  service:
+    name: insecure-java
+    port: 8080
+    targetPort: 8080
+  replicas: 1
+  image:
+    repository: confusedcrib/insecure-java
+    tag: latest
+  containerPort: 8080
   
 busybox:
   namespace: busybox
