@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.insecurejava.InsecureJavaApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-27T23:26:46" hostname="james-2023" time="0.415">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.example.insecurejava.InsecureJavaApplicationTests" time="0.415"/>
+  <system-out><![CDATA[19:26:46.061 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.insecurejava.InsecureJavaApplicationTests]: InsecureJavaApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:26:46.116 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.insecurejava.InsecureJavaApplication for test class com.example.insecurejava.InsecureJavaApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.4)
+
+2024-03-27T19:26:46.320-04:00  INFO 39301 --- [insecure-java] [    Test worker] c.e.i.InsecureJavaApplicationTests       : Starting InsecureJavaApplicationTests using Java 17.0.10 with PID 39301 (started by confusedcrib in /home/confusedcrib/git/insecure-kubernetes-deployments/insecure-java)
+2024-03-27T19:26:46.321-04:00  INFO 39301 --- [insecure-java] [    Test worker] c.e.i.InsecureJavaApplicationTests       : No active profile set, falling back to 1 default profile: "default"
+2024-03-27T19:26:46.919-04:00  INFO 39301 --- [insecure-java] [    Test worker] c.e.i.InsecureJavaApplicationTests       : Started InsecureJavaApplicationTests in 0.736 seconds (process running for 1.302)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
