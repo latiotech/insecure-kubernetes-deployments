@@ -1,4 +1,4 @@
-requests == 2.19.1
+requests == 1.19.1
 cryptography==3.3.2
 flask==3.0.2
 cryptograpy==3.3.2
