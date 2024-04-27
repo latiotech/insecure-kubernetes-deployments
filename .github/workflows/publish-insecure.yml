@@ -74,3 +74,19 @@ jobs:
           push: true
           tags: ${{ steps.meta-js.outputs.tags }}
           labels: ${{ steps.meta-js.outputs.labels }}
+
+      # Build and push workload-security Docker image
+      - name: Extract metadata for insecure-java
+        id: meta-wse
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: confusedcrib/workload-security-evaluator
+      
+      - name: Build and push insecure-java Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./workload-security-evaluator/Dockerfile
+          push: true
+          tags: ${{ steps.meta-wse.outputs.tags }}
+          labels: ${{ steps.meta-wse.outputs.labels }}
