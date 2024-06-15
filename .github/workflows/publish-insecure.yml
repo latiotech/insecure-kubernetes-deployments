@@ -12,6 +12,8 @@ name: Publish Docker images
 on:
   release:
     types: [published]
+  schedule:
+    - cron: '0 0 * * *'  # Nightly builds
 
 jobs:
   push_to_registry:

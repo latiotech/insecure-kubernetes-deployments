@@ -18,6 +18,7 @@ def index():
     password = ''
     try:
         #the % is what makes it bad, instead of passing them in as parameters
+        #Example Exploit: SELECT * FROM users WHERE username = '' OR '1'='1' AND password = '' OR '1'='1'
         cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
     except:
         pass
