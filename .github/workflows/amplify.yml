@@ -1,0 +1,28 @@
+# .github/workflows/amplify.yml
+name: Amplify Security # do not modify this line
+on:
+  pull_request: {} # run for all PRs
+  workflow_dispatch: {} # allow manual runs through GitHub UI
+  push:
+    branches: ["master", "main"] # add additional iteration or release branch patterns here
+permissions:
+  contents: read # declare default permissions for GITHUB_TOKEN
+jobs:
+  amplify-security-scan:
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+    if: (github.actor != 'dependabot[bot]')
+    steps:
+      - uses: actions/checkout@v3
+      - run: semgrep ci --config auto --json > amplify-sast.json || true
+        env:
+          SEMGREP_RULES: >-
+            p/security-audit
+            p/secrets
+      # do not modify this step
+      - uses: actions/upload-artifact@v3
+        with:
+          name: amplify-scan
+          path: amplify-sast.json
+          retention-days: 7
