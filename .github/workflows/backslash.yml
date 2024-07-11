@@ -1,0 +1,21 @@
+name: 'CI | Backslash scan'
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+    - main
+
+env:
+  API_KEY: ${{ secrets.BACKSLASH_API_KEY }}
+
+jobs:
+  backslash-scan:
+    name: Scaning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Backslash scan step
+        uses: backslash-security/scan-action@main
+        with:
+          authToken: ${{ env.API_KEY }}
+          prScan: true
