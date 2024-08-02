@@ -1,0 +1,11 @@
+sensitiveCodepaths:
+  # Files only allowed authors can modify
+  # - 'app.js'
+  # - 'controllers/**/*.js'
+allowedAuthors:
+  usernames:
+    - 'confusedcrib'
+notificationList:
+  # GitHub username or team name
+  # - '@DryRunSec/security'
+  # - '@john-doe'
