@@ -1,8 +1,12 @@
 FROM node:16
 
-WORKDIR /usr/src/app
+# Create /app directory and set as working directory
+RUN mkdir /app
+WORKDIR /app
 
-COPY ./insecure-js/* ./
+# Add application and package
+ADD ./insecure-js/package.json /app/
+ADD ./insecure-js/server.js /app/ 
 
 RUN npm install
 
