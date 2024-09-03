@@ -35,8 +35,9 @@ const server = http.createServer((req, res) => {
       let responseMessages = [];
       // SQL Injection via string concatenation
       if (postData.rawSql) {
+        //
         try {
-          const rawQuery = `SELECT * FROM users WHERE username = '${postData.rawSql}'`;
+          const rawQuery = `SELECT * FROM users WHERE username = '${postData.rawSql}'`; 
           const users = await sequelize.query(rawQuery, { type: sequelize.QueryTypes.SELECT });
 
           if (users.length > 0) {
