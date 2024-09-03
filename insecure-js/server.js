@@ -33,7 +33,22 @@ const server = http.createServer((req, res) => {
     req.on('end', async () => {
       const postData = qs.parse(body);
       let responseMessages = [];
+      // SQL Injection via string concatenation
+      if (postData.rawSql) {
+        try {
+          const rawQuery = `SELECT * FROM users WHERE username = '${postData.rawSql}'`;
+          const users = await sequelize.query(rawQuery, { type: sequelize.QueryTypes.SELECT });
 
+          if (users.length > 0) {
+            responseMessages.push(`<p>Found ${users.length} user(s) with username: ${postData.rawSql}</p>`);
+          } else {
+            responseMessages.push(`<p>No users found with username: ${postData.rawSql}</p>`);
+          }
+        } catch (error) {
+          console.error(error);
+          responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
+        }
+      }
       // SQL Injection via Sequelize findAll function - CVE-2017-18342
       if (postData.username) {
         try {
