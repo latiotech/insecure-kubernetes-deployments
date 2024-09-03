@@ -2,7 +2,8 @@
   "dependencies": {
     "@aikidosec/firewall": "^1.5.47",
     "lodash": "4.16.1",
-    "semver": "5.4.1"
+    "semver": "5.4.1",
+    "jquery": "2.1.0"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-rc.1"
