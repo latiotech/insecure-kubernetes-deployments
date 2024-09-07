@@ -3,7 +3,7 @@ const _ = require('lodash');
 const qs = require('querystring');
 const semver = require('semver');
 const JSON5 = require('json5');
-const Sequelize = require('sequelize');  // Add sequelize dependency
+const Sequelize = require('sequelize');
 
 const hostname = '0.0.0.0';
 const port = 3000;
@@ -50,27 +50,26 @@ const server = http.createServer((req, res) => {
           responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
         }
       }
-      // SQL Injection via Sequelize findAll function - CVE-2017-18342
+      // SQL Injection via Sequelize findAll function - CVE-2019-10748, technically requires db to be MySQL or MariaDB
       if (postData.username) {
         try {
-          // Vulnerable code: unsanitized input being directly passed to where clause
+          // Vulnerable code: unsanitized input being directly passed to the where clause involving a JSON path key
           const users = await User.findAll({
             where: {
-              username: postData.username // This is vulnerable to SQL Injection
+              target: { [postData.username]: 1 } 
             }
           });
-
+        
           if (users.length > 0) {
-            responseMessages.push(`<p>Found ${users.length} user(s) with username: ${postData.username}</p>`);
+            responseMessages.push(`<p>Found ${users.length} user(s) with target username: ${postData.username}</p>`);
           } else {
-            responseMessages.push(`<p>No users found with username: ${postData.username}</p>`);
+            responseMessages.push(`<p>No users found with target username: ${postData.username}</p>`);
           }
         } catch (error) {
           console.error(error);
           responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
         }
       }
-
       // Process template input for lodash vulnerability CVE-2021-23337
       if (postData.template) {
         try {

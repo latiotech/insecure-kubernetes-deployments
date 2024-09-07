@@ -6,7 +6,7 @@
     "jquery": "2.1.0",
     "chartist": "0.3.0",
     "chart.js": "2.8.0",
-    "sequelize": "4.44.3"
+    "sequelize": "4.44.1"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-rc.1"
