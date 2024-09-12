@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@aikidosec/firewall": "^1.5.47",
+    "@aikidosec/firewall": "^1.5.62",
     "lodash": "4.16.1",
     "semver": "5.4.1"
   },
