@@ -5,7 +5,7 @@
     "semver": "5.4.1"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-rc.1"
+    "@babel/core": "7.23.2"
   },
   "resolutions": {
     "**/semver": "5.4.1",
