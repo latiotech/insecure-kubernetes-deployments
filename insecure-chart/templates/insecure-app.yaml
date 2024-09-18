@@ -23,7 +23,9 @@ spec:
         - name: AWS_SECRET_ACCESS_KEY
           value: v5xpjkWYoy45fGKFSMajSn+sqs22WI2niacX9yO5
         securityContext:
-          privileged: true
+          seccompProfile:
+            localhostProfile: default/Deployment-insecure-app-insecure-app.json
+            type: Localhost
         volumeMounts:                   
         - name: docker-socket
           mountPath: /var/run/docker.sock
