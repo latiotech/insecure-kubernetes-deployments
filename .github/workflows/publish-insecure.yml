@@ -1,12 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
-
 name: Publish Docker images
 
 on:
@@ -20,76 +11,48 @@ jobs:
   push_to_registry:
     name: Push Docker images to Docker Hub
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        image-data:
+          - name: insecure-app
+            image: confusedcrib/insecure-app
+            context: ./insecure-app
+            dockerfile: ./insecure-app/Dockerfile
+          - name: insecure-java
+            image: confusedcrib/insecure-java
+            context: ./insecure-java
+            dockerfile: ./insecure-java/Dockerfile
+          - name: insecure-js
+            image: confusedcrib/insecure-js
+            context: ./insecure-js
+            dockerfile: ./insecure-js/Dockerfile
+          - name: workload-security-evaluator
+            image: confusedcrib/workload-security-evaluator
+            context: ./workload-security-evaluator
+            dockerfile: ./workload-security-evaluator/Dockerfile
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
       
       - name: Log in to Docker Hub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-      # Build and push insecure-app Docker image
-      - name: Extract metadata for insecure-app
-        id: meta-app
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      - name: Extract metadata for ${{ matrix.image-data.name }}
+        id: meta
+        uses: docker/metadata-action@v4
         with:
-          images: confusedcrib/insecure-app
-          
-      - name: Build and push insecure-app Docker image
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        with:
-          context: .
-          file: ./insecure-app/Dockerfile
-          push: true
-          tags: ${{ steps.meta-app.outputs.tags }}
-          labels: ${{ steps.meta-app.outputs.labels }}
-
-      # Build and push insecure-java Docker image
-      - name: Extract metadata for insecure-java
-        id: meta-java
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: confusedcrib/insecure-java
+          images: ${{ matrix.image-data.image }}
       
-      - name: Build and push insecure-java Docker image
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+      - name: Build and push ${{ matrix.image-data.name }} Docker image
+        uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./insecure-java/Dockerfile
+          context: ${{ matrix.image-data.context }}
+          file: ${{ matrix.image-data.dockerfile }}
           push: true
-          tags: ${{ steps.meta-java.outputs.tags }}
-          labels: ${{ steps.meta-java.outputs.labels }}
-
-      # Build and push insecure-js Docker image
-      - name: Extract metadata for insecure-js
-        id: meta-js
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: confusedcrib/insecure-js
-      
-      - name: Build and push insecure-js Docker image
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        with:
-          context: .
-          file: ./insecure-js/Dockerfile
-          push: true
-          tags: ${{ steps.meta-js.outputs.tags }}
-          labels: ${{ steps.meta-js.outputs.labels }}
-
-      # Build and push workload-security Docker image
-      - name: Extract metadata for insecure-java
-        id: meta-wse
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: confusedcrib/workload-security-evaluator
-      
-      - name: Build and push insecure-java Docker image
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        with:
-          context: .
-          file: ./workload-security-evaluator/Dockerfile
-          push: true
-          tags: ${{ steps.meta-wse.outputs.tags }}
-          labels: ${{ steps.meta-wse.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
