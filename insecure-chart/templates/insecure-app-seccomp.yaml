@@ -1,0 +1,97 @@
+kind: SeccompProfile
+apiVersion: spdx.softwarecomposition.kubescape.io/v1beta1
+metadata:
+  name: insecure-app
+  namespace: default
+  creationTimestamp: null
+spec:
+  containers:
+    - name: insecure-app
+      path: default/Deployment-insecure-app-insecure-app.json
+      spec:
+        defaultAction: SCMP_ACT_ERRNO
+        architectures:
+          - SCMP_ARCH_X86_64
+          - SCMP_ARCH_X86
+          - SCMP_ARCH_X32
+        syscalls:
+          - names:
+              - accept4
+              - access
+              - arch_prctl
+              - bind
+              - brk
+              - capget
+              - capset
+              - chdir
+              - clone
+              - close
+              - connect
+              - dup
+              - dup2
+              - epoll_create1
+              - epoll_ctl
+              - epoll_pwait
+              - epoll_wait
+              - execve
+              - exit
+              - exit_group
+              - faccessat2
+              - fcntl
+              - fstat
+              - fstatfs
+              - futex
+              - getcwd
+              - getdents64
+              - getegid
+              - geteuid
+              - getgid
+              - getpid
+              - getppid
+              - getrandom
+              - getsockname
+              - gettid
+              - getuid
+              - ioctl
+              - listen
+              - lseek
+              - lstat
+              - madvise
+              - mmap
+              - mprotect
+              - munmap
+              - nanosleep
+              - newfstatat
+              - openat
+              - pipe2
+              - poll
+              - prctl
+              - pread64
+              - prlimit64
+              - read
+              - readlink
+              - recvfrom
+              - rt_sigaction
+              - rt_sigprocmask
+              - rt_sigreturn
+              - sched_yield
+              - select
+              - sendto
+              - set_robust_list
+              - set_tid_address
+              - setgid
+              - setgroups
+              - setsockopt
+              - setuid
+              - shutdown
+              - sigaltstack
+              - socket
+              - stat
+              - sysinfo
+              - tgkill
+              - umask
+              - uname
+              - wait4
+              - write
+            action: SCMP_ACT_ALLOW
+status: {}
