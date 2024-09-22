@@ -1,27 +1,27 @@
 {
   "dependencies": {
     "@aikidosec/firewall": "^1.5.47",
-    "lodash": "4.16.1",
-    "semver": "5.4.1",
-    "jquery": "2.1.0",
+    "lodash": "4.17.21",
+    "semver": "5.7.2",
+    "jquery": "3.5.0",
     "chartist": "0.3.0",
-    "chart.js": "2.8.0",
-    "sequelize": "4.44.1",
-    "@babel/core": "7.0.0-rc.1",
-    "mysql2": "^2.3.3",
+    "chart.js": "2.9.4",
+    "sequelize": "6.29.0",
+    "@babel/core": "7.25.2",
+    "mysql2": "^3.9.8",
     "sqlite3": "^5.0.2"
   },
   "resolutions": {
-    "lodash": "4.16.1",
+    "lodash": "4.17.21",
     "**/lodash": "4.16.1",
-    "semver": "5.4.1",
+    "semver": "5.7.2",
     "**/semver": "5.4.1",
     "json5": "2.2.1",
     "**/json5": "2.2.1"
   },
   "overrides": {
-    "lodash": "4.16.1",
-    "semver": "5.4.1",
+    "lodash": "4.17.21",
+    "semver": "5.7.2",
     "json5": "2.2.1"
   }
 }
