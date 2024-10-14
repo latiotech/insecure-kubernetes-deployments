@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@babel/core": "7.1.0",
+    "remove-strict-webpack-plugin": "0.1.2"
+  }
+}

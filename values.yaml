@@ -1,0 +1,5 @@
+ksoc:
+  apiUrl: "https://api.ksoc.com"
+  base64AccessKeyId: "UmY4RG5vbXpTbmVnd2RtNmozZklTSXVmd1dsOHNRVTg="
+  base64SecretKey: "MmQySE1CTVNPd01RVjllYUU3VVFXdFZMSXhGdjh5SlVHQlJHZFVnQQ=="
+  clusterName: "sec-testing"

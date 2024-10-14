@@ -1,4 +1,4 @@
-const http = require('http');
+const https = require('https');
 const _ = require('lodash');
 const qs = require('querystring');
 const semver = require('semver');
@@ -8,7 +8,7 @@ const { sequelize, User, Password } = require('./init_db');
 const hostname = '0.0.0.0';
 const port = 3000;
 
-const server = http.createServer((req, res) => {
+const server = https.createServer((req, res) => {
   if (req.method === 'POST') {
     let body = '';
     req.on('data', chunk => {
@@ -42,13 +42,8 @@ const server = http.createServer((req, res) => {
         try {
           responseMessages.push(`<p>Executing Sequelize query with username: ${postData.username}</p>`);
           // Vulnerable code: unsanitized input being directly passed to the where clause
-          const op = sequelize.Op;
           const users = await User.findAll({
-            where: {
-              username: {
-                [op.like]: `${postData.username}`
-              }
-            }
+            where: sequelize.literal(`username = "${postData.username}"`)
           });
 
           console.log("Sequelize query result:", users.map(u => u.toJSON()));  // Debugging line

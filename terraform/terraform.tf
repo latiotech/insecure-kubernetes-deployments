@@ -19,6 +19,11 @@ terraform {
       source  = "hashicorp/cloudinit"
       version = "~> 2.3.2"
     }
+
+    rad-security = {
+      source  = "rad-security/rad-security"
+      version = "1.1.5"
+    }
   }
 
   required_version = "~> 1.3"

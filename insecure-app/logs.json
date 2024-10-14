@@ -1,0 +1,789 @@
+ * Debug mode: off
+{
+    "body": "\u001b[31m\u001b[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\u001b[0m\n * Running on http://127.0.0.1:8080",
+    "severity_number": "<SeverityNumber.INFO: 9>",
+    "severity_text": "INFO",
+    "attributes": {
+        "otelSpanID": "0",
+        "otelTraceID": "0",
+        "otelTraceSampled": false,
+        "otelServiceName": "dice-server",
+        "code.filepath": "/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/werkzeug/_internal.py",
+        "code.function": "_log",
+        "code.lineno": 96
+    },
+    "dropped_attributes": 0,
+    "timestamp": "2024-10-03T13:39:33.535404Z",
+    "observed_timestamp": "2024-10-03T13:39:33.535444Z",
+    "trace_id": "0x00000000000000000000000000000000",
+    "span_id": "0x0000000000000000",
+    "trace_flags": 0,
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "body": "\u001b[33mPress CTRL+C to quit\u001b[0m",
+    "severity_number": "<SeverityNumber.INFO: 9>",
+    "severity_text": "INFO",
+    "attributes": {
+        "otelSpanID": "0",
+        "otelTraceID": "0",
+        "otelTraceSampled": false,
+        "otelServiceName": "dice-server",
+        "code.filepath": "/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/werkzeug/_internal.py",
+        "code.function": "_log",
+        "code.lineno": 96
+    },
+    "dropped_attributes": 0,
+    "timestamp": "2024-10-03T13:39:33.535496Z",
+    "observed_timestamp": "2024-10-03T13:39:33.535508Z",
+    "trace_id": "0x00000000000000000000000000000000",
+    "span_id": "0x0000000000000000",
+    "trace_flags": 0,
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "SELECT",
+    "context": {
+        "trace_id": "0xe3196d0d327df020d24b12db892e7cdf",
+        "span_id": "0x812546e49a02221d",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.CLIENT",
+    "parent_id": "0x869c7e92ba2037ad",
+    "start_time": "2024-10-03T13:39:38.485860Z",
+    "end_time": "2024-10-03T13:39:38.486643Z",
+    "status": {
+        "status_code": "ERROR",
+        "description": "OperationalError: no such table: users"
+    },
+    "attributes": {
+        "db.system": "sqlite",
+        "db.name": "",
+        "db.statement": "SELECT * FROM users WHERE username = '' AND password = ''"
+    },
+    "events": [
+        {
+            "name": "exception",
+            "timestamp": "2024-10-03T13:39:38.486630Z",
+            "attributes": {
+                "exception.type": "sqlite3.OperationalError",
+                "exception.message": "no such table: users",
+                "exception.stacktrace": "Traceback (most recent call last):\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/trace/__init__.py\", line 590, in use_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/sdk/trace/__init__.py\", line 1108, in start_as_current_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 467, in traced_execution\n    return query_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: no such table: users\n",
+                "exception.escaped": "False"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "jinja2.compile",
+    "context": {
+        "trace_id": "0xe3196d0d327df020d24b12db892e7cdf",
+        "span_id": "0x2c7ca1554e4336ae",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x869c7e92ba2037ad",
+    "start_time": "2024-10-03T13:39:38.490466Z",
+    "end_time": "2024-10-03T13:39:38.491709Z",
+    "status": {
+        "status_code": "UNSET"
+    },
+    "attributes": {
+        "jinja2.template_name": "<memory>"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "jinja2.render",
+    "context": {
+        "trace_id": "0xe3196d0d327df020d24b12db892e7cdf",
+        "span_id": "0xd2062bc6bae02087",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x869c7e92ba2037ad",
+    "start_time": "2024-10-03T13:39:38.491803Z",
+    "end_time": "2024-10-03T13:39:38.491855Z",
+    "status": {
+        "status_code": "UNSET"
+    },
+    "attributes": {
+        "jinja2.template_name": "<memory>"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "body": "127.0.0.1 - - [03/Oct/2024 09:39:38] \"POST / HTTP/1.1\" 200 -",
+    "severity_number": "<SeverityNumber.INFO: 9>",
+    "severity_text": "INFO",
+    "attributes": {
+        "otelSpanID": "0",
+        "otelTraceID": "0",
+        "otelTraceSampled": false,
+        "otelServiceName": "dice-server",
+        "code.filepath": "/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/werkzeug/_internal.py",
+        "code.function": "_log",
+        "code.lineno": 96
+    },
+    "dropped_attributes": 0,
+    "timestamp": "2024-10-03T13:39:38.492286Z",
+    "observed_timestamp": "2024-10-03T13:39:38.492324Z",
+    "trace_id": "0x00000000000000000000000000000000",
+    "span_id": "0x0000000000000000",
+    "trace_flags": 0,
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "body": "127.0.0.1 - - [03/Oct/2024 09:39:40] \"POST / HTTP/1.1\" 200 -",
+    "severity_number": "<SeverityNumber.INFO: 9>",
+    "severity_text": "INFO",
+    "attributes": {
+        "otelSpanID": "0",
+        "otelTraceID": "0",
+        "otelTraceSampled": false,
+        "otelServiceName": "dice-server",
+        "code.filepath": "/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/werkzeug/_internal.py",
+        "code.function": "_log",
+        "code.lineno": 96
+    },
+    "dropped_attributes": 0,
+    "timestamp": "2024-10-03T13:39:40.978308Z",
+    "observed_timestamp": "2024-10-03T13:39:40.978351Z",
+    "trace_id": "0x00000000000000000000000000000000",
+    "span_id": "0x0000000000000000",
+    "trace_flags": 0,
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "POST /",
+    "context": {
+        "trace_id": "0xe3196d0d327df020d24b12db892e7cdf",
+        "span_id": "0x869c7e92ba2037ad",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.SERVER",
+    "parent_id": null,
+    "start_time": "2024-10-03T13:39:38.484853Z",
+    "end_time": "2024-10-03T13:39:38.492054Z",
+    "status": {
+        "status_code": "UNSET"
+    },
+    "attributes": {
+        "http.method": "POST",
+        "http.server_name": "127.0.0.1",
+        "http.scheme": "http",
+        "net.host.name": "localhost:8080",
+        "http.host": "localhost:8080",
+        "net.host.port": 8080,
+        "http.target": "/",
+        "net.peer.ip": "127.0.0.1",
+        "net.peer.port": 54986,
+        "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "http.flavor": "1.1",
+        "http.route": "/",
+        "http.status_code": 200
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "SELECT",
+    "context": {
+        "trace_id": "0x11688b21a7bd3deb1de6416fb13f47d5",
+        "span_id": "0xe54ea5ee1fa2ad48",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.CLIENT",
+    "parent_id": "0xbdc1cde70c860cb0",
+    "start_time": "2024-10-03T13:39:40.973112Z",
+    "end_time": "2024-10-03T13:39:40.973607Z",
+    "status": {
+        "status_code": "ERROR",
+        "description": "OperationalError: no such table: users"
+    },
+    "attributes": {
+        "db.system": "sqlite",
+        "db.name": "",
+        "db.statement": "SELECT * FROM users WHERE username = '' AND password = ''"
+    },
+    "events": [
+        {
+            "name": "exception",
+            "timestamp": "2024-10-03T13:39:40.973588Z",
+            "attributes": {
+                "exception.type": "sqlite3.OperationalError",
+                "exception.message": "no such table: users",
+                "exception.stacktrace": "Traceback (most recent call last):\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/trace/__init__.py\", line 590, in use_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/sdk/trace/__init__.py\", line 1108, in start_as_current_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 467, in traced_execution\n    return query_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: no such table: users\n",
+                "exception.escaped": "False"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "jinja2.compile",
+    "context": {
+        "trace_id": "0x11688b21a7bd3deb1de6416fb13f47d5",
+        "span_id": "0x940ff5b23d119152",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xbdc1cde70c860cb0",
+    "start_time": "2024-10-03T13:39:40.977222Z",
+    "end_time": "2024-10-03T13:39:40.977836Z",
+    "status": {
+        "status_code": "UNSET"
+    },
+    "attributes": {
+        "jinja2.template_name": "<memory>"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "jinja2.render",
+    "context": {
+        "trace_id": "0x11688b21a7bd3deb1de6416fb13f47d5",
+        "span_id": "0x8e3af4a8f7fd4309",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xbdc1cde70c860cb0",
+    "start_time": "2024-10-03T13:39:40.977927Z",
+    "end_time": "2024-10-03T13:39:40.977978Z",
+    "status": {
+        "status_code": "UNSET"
+    },
+    "attributes": {
+        "jinja2.template_name": "<memory>"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "POST /",
+    "context": {
+        "trace_id": "0x11688b21a7bd3deb1de6416fb13f47d5",
+        "span_id": "0xbdc1cde70c860cb0",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.SERVER",
+    "parent_id": null,
+    "start_time": "2024-10-03T13:39:40.972282Z",
+    "end_time": "2024-10-03T13:39:40.978158Z",
+    "status": {
+        "status_code": "UNSET"
+    },
+    "attributes": {
+        "http.method": "POST",
+        "http.server_name": "127.0.0.1",
+        "http.scheme": "http",
+        "net.host.name": "localhost:8080",
+        "http.host": "localhost:8080",
+        "net.host.port": 8080,
+        "http.target": "/",
+        "net.peer.ip": "127.0.0.1",
+        "net.peer.port": 54998,
+        "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "http.flavor": "1.1",
+        "http.route": "/",
+        "http.status_code": 200
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "SELECT",
+    "context": {
+        "trace_id": "0x55a863521f9340487f77a57d1fe0b791",
+        "span_id": "0xaf5300c9a4baecb6",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.CLIENT",
+    "parent_id": "0x7001cb82dff32233",
+    "start_time": "2024-10-03T13:39:43.598636Z",
+    "end_time": "2024-10-03T13:39:43.599052Z",
+    "status": {
+        "status_code": "ERROR",
+        "description": "OperationalError: no such table: users"
+    },
+    "attributes": {
+        "db.system": "sqlite",
+        "db.name": "",
+        "db.statement": "SELECT * FROM users WHERE username = '' AND password = ''"
+    },
+    "events": [
+        {
+            "name": "exception",
+            "timestamp": "2024-10-03T13:39:43.599038Z",
+            "attributes": {
+                "exception.type": "sqlite3.OperationalError",
+                "exception.message": "no such table: users",
+                "exception.stacktrace": "Traceback (most recent call last):\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/trace/__init__.py\", line 590, in use_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/sdk/trace/__init__.py\", line 1108, in start_as_current_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 467, in traced_execution\n    return query_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: no such table: users\n",
+                "exception.escaped": "False"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "select",
+    "context": {
+        "trace_id": "0x55a863521f9340487f77a57d1fe0b791",
+        "span_id": "0xa31b1f7402aa0a62",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.CLIENT",
+    "parent_id": "0x7001cb82dff32233",
+    "start_time": "2024-10-03T13:39:43.599191Z",
+    "end_time": "2024-10-03T13:39:43.599354Z",
+    "status": {
+        "status_code": "ERROR",
+        "description": "OperationalError: near \"*\": syntax error"
+    },
+    "attributes": {
+        "db.system": "sqlite",
+        "db.name": "",
+        "db.statement": "select * from *"
+    },
+    "events": [
+        {
+            "name": "exception",
+            "timestamp": "2024-10-03T13:39:43.599349Z",
+            "attributes": {
+                "exception.type": "sqlite3.OperationalError",
+                "exception.message": "near \"*\": syntax error",
+                "exception.stacktrace": "Traceback (most recent call last):\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/trace/__init__.py\", line 590, in use_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/sdk/trace/__init__.py\", line 1108, in start_as_current_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 467, in traced_execution\n    return query_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: near \"*\": syntax error\n",
+                "exception.escaped": "False"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "POST /",
+    "context": {
+        "trace_id": "0x55a863521f9340487f77a57d1fe0b791",
+        "span_id": "0x7001cb82dff32233",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.SERVER",
+    "parent_id": null,
+    "start_time": "2024-10-03T13:39:43.597838Z",
+    "end_time": "2024-10-03T13:39:43.601051Z",
+    "status": {
+        "status_code": "ERROR",
+        "description": "OperationalError: near \"*\": syntax error"
+    },
+    "attributes": {
+        "http.method": "POST",
+        "http.server_name": "127.0.0.1",
+        "http.scheme": "http",
+        "net.host.name": "localhost:8080",
+        "http.host": "localhost:8080",
+        "net.host.port": 8080,
+        "http.target": "/",
+        "net.peer.ip": "127.0.0.1",
+        "net.peer.port": 55000,
+        "http.user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "http.flavor": "1.1",
+        "http.route": "/",
+        "http.status_code": 500
+    },
+    "events": [
+        {
+            "name": "exception",
+            "timestamp": "2024-10-03T13:39:43.601045Z",
+            "attributes": {
+                "exception.type": "sqlite3.OperationalError",
+                "exception.message": "near \"*\": syntax error",
+                "exception.stacktrace": "Traceback (most recent call last):\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/trace/__init__.py\", line 590, in use_span\n    yield span\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 1463, in wsgi_app\n    response = self.full_dispatch_request()\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 872, in full_dispatch_request\n    rv = self.handle_user_exception(e)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 870, in full_dispatch_request\n    rv = self.dispatch_request()\n         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 855, in dispatch_request\n    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/git/insecure-kubernetes-deployments/insecure-app/app.py\", line 40, in index\n    cursor.execute(sql)\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 480, in execute\n    return _cursor_tracer.traced_execution(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 467, in traced_execution\n    return query_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: near \"*\": syntax error\n",
+                "exception.escaped": "False"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "body": "Exception on / [POST]",
+    "severity_number": "<SeverityNumber.ERROR: 17>",
+    "severity_text": "ERROR",
+    "attributes": {
+        "otelSpanID": "7001cb82dff32233",
+        "otelTraceID": "55a863521f9340487f77a57d1fe0b791",
+        "otelTraceSampled": true,
+        "otelServiceName": "dice-server",
+        "code.filepath": "/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py",
+        "code.function": "log_exception",
+        "code.lineno": 828,
+        "exception.type": "OperationalError",
+        "exception.message": "near \"*\": syntax error",
+        "exception.stacktrace": "Traceback (most recent call last):\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 1463, in wsgi_app\n    response = self.full_dispatch_request()\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 872, in full_dispatch_request\n    rv = self.handle_user_exception(e)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 870, in full_dispatch_request\n    rv = self.dispatch_request()\n         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/flask/app.py\", line 855, in dispatch_request\n    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/git/insecure-kubernetes-deployments/insecure-app/app.py\", line 40, in index\n    cursor.execute(sql)\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 480, in execute\n    return _cursor_tracer.traced_execution(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/opentelemetry/instrumentation/dbapi/__init__.py\", line 467, in traced_execution\n    return query_method(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.OperationalError: near \"*\": syntax error\n"
+    },
+    "dropped_attributes": 0,
+    "timestamp": "2024-10-03T13:39:43.599437Z",
+    "observed_timestamp": "2024-10-03T13:39:43.599473Z",
+    "trace_id": "0x55a863521f9340487f77a57d1fe0b791",
+    "span_id": "0x7001cb82dff32233",
+    "trace_flags": 1,
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "body": "127.0.0.1 - - [03/Oct/2024 09:39:43] \"\u001b[35m\u001b[1mPOST / HTTP/1.1\u001b[0m\" 500 -",
+    "severity_number": "<SeverityNumber.INFO: 9>",
+    "severity_text": "INFO",
+    "attributes": {
+        "otelSpanID": "0",
+        "otelTraceID": "0",
+        "otelTraceSampled": false,
+        "otelServiceName": "dice-server",
+        "code.filepath": "/home/confusedcrib/.asdf/installs/python/3.12.0/lib/python3.12/site-packages/werkzeug/_internal.py",
+        "code.function": "_log",
+        "code.lineno": 96
+    },
+    "dropped_attributes": 0,
+    "timestamp": "2024-10-03T13:39:43.601158Z",
+    "observed_timestamp": "2024-10-03T13:39:43.601174Z",
+    "trace_id": "0x00000000000000000000000000000000",
+    "span_id": "0x0000000000000000",
+    "trace_flags": 0,
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.27.0",
+            "service.name": "dice-server",
+            "telemetry.auto.version": "0.48b0"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "resource_metrics": [
+        {
+            "resource": {
+                "attributes": {
+                    "telemetry.sdk.language": "python",
+                    "telemetry.sdk.name": "opentelemetry",
+                    "telemetry.sdk.version": "1.27.0",
+                    "service.name": "dice-server",
+                    "telemetry.auto.version": "0.48b0"
+                },
+                "schema_url": ""
+            },
+            "scope_metrics": [
+                {
+                    "scope": {
+                        "name": "opentelemetry.instrumentation.flask",
+                        "version": "0.48b0",
+                        "schema_url": "https://opentelemetry.io/schemas/1.11.0",
+                        "attributes": null
+                    },
+                    "metrics": [
+                        {
+                            "name": "http.server.active_requests",
+                            "description": "measures the number of concurrent HTTP requests that are currently in-flight",
+                            "unit": "requests",
+                            "data": {
+                                "data_points": [
+                                    {
+                                        "attributes": {
+                                            "http.method": "POST",
+                                            "http.server_name": "127.0.0.1",
+                                            "http.scheme": "http",
+                                            "http.host": "localhost:8080",
+                                            "http.flavor": "1.1"
+                                        },
+                                        "start_time_unix_nano": 1727962778485047949,
+                                        "time_unix_nano": 1727962824396183688,
+                                        "value": 0
+                                    }
+                                ],
+                                "aggregation_temporality": 2,
+                                "is_monotonic": false
+                            }
+                        },
+                        {
+                            "name": "http.server.duration",
+                            "description": "measures the duration of the inbound HTTP request",
+                            "unit": "ms",
+                            "data": {
+                                "data_points": [
+                                    {
+                                        "attributes": {
+                                            "http.method": "POST",
+                                            "http.server_name": "127.0.0.1",
+                                            "http.scheme": "http",
+                                            "net.host.name": "localhost:8080",
+                                            "http.host": "localhost:8080",
+                                            "net.host.port": 8080,
+                                            "http.flavor": "1.1",
+                                            "http.status_code": 200,
+                                            "http.target": "/"
+                                        },
+                                        "start_time_unix_nano": 1727962778492189237,
+                                        "time_unix_nano": 1727962824396183688,
+                                        "count": 2,
+                                        "sum": 13,
+                                        "bucket_counts": [
+                                            0,
+                                            0,
+                                            2,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        "explicit_bounds": [
+                                            0.0,
+                                            5.0,
+                                            10.0,
+                                            25.0,
+                                            50.0,
+                                            75.0,
+                                            100.0,
+                                            250.0,
+                                            500.0,
+                                            750.0,
+                                            1000.0,
+                                            2500.0,
+                                            5000.0,
+                                            7500.0,
+                                            10000.0
+                                        ],
+                                        "min": 6,
+                                        "max": 7
+                                    },
+                                    {
+                                        "attributes": {
+                                            "http.method": "POST",
+                                            "http.server_name": "127.0.0.1",
+                                            "http.scheme": "http",
+                                            "net.host.name": "localhost:8080",
+                                            "http.host": "localhost:8080",
+                                            "net.host.port": 8080,
+                                            "http.flavor": "1.1",
+                                            "http.status_code": 500,
+                                            "http.target": "/"
+                                        },
+                                        "start_time_unix_nano": 1727962783601088591,
+                                        "time_unix_nano": 1727962824396183688,
+                                        "count": 1,
+                                        "sum": 3,
+                                        "bucket_counts": [
+                                            0,
+                                            1,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0
+                                        ],
+                                        "explicit_bounds": [
+                                            0.0,
+                                            5.0,
+                                            10.0,
+                                            25.0,
+                                            50.0,
+                                            75.0,
+                                            100.0,
+                                            250.0,
+                                            500.0,
+                                            750.0,
+                                            1000.0,
+                                            2500.0,
+                                            5000.0,
+                                            7500.0,
+                                            10000.0
+                                        ],
+                                        "min": 3,
+                                        "max": 3
+                                    }
+                                ],
+                                "aggregation_temporality": 2
+                            }
+                        }
+                    ],
+                    "schema_url": "https://opentelemetry.io/schemas/1.11.0"
+                }
+            ],
+            "schema_url": ""
+        }
+    ]
+}
