@@ -3,7 +3,7 @@
     "@aikidosec/firewall": "^1.5.47",
     "lodash": "4.16.1",
     "semver": "5.4.1",
-    "jquery": "2.1.0",
+    "jquery": "2.0.1",
     "chartist": "0.3.0",
     "chart.js": "2.8.0",
     "sequelize": "4.44.1",
