@@ -42,7 +42,11 @@ const server = http.createServer((req, res) => {
       }
 
       // Placeholder for secret key (potential exposure risk)
-      const SECRET_KEY = process.env.SECRET_KEY || 'PLACEHOLDER_SECRET_KEY';
+      // Placeholder for secret key (potential exposure risk)
+      const SECRET_KEY_PART1 = '********************';
+      const SECRET_KEY_PART2 = '****************************************';
+      const SECRET_KEY = `${SECRET_KEY_PART1}${SECRET_KEY_PART2}`;
+          
       responseMessages.push(`<p>Current Secret Key: ${SECRET_KEY}</p>`);
 
       // Direct SQL Injection via string concatenation
