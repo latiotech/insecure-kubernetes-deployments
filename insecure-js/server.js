@@ -22,6 +22,25 @@ const server = http.createServer((req, res) => {
       res.setHeader('Set-Cookie', `sessionToken=insecureToken; Path=/; HttpOnly`);
       res.setHeader('Content-Type', 'text/html');
 
+      // Direct SQL Injection via string concatenation
+      if (postData.rawSql) {
+        try {
+          const rawQuery = `${postData.rawSql}`; 
+          responseMessages.push(`<p>Executing raw SQL query: ${rawQuery}</p>`);
+          const result = await sequelize.query(rawQuery, { type: sequelize.QueryTypes.SELECT });
+
+          if (result.length > 0) {
+            responseMessages.push(`<p>Query returned ${result.length} row(s):</p>`);
+            responseMessages.push(`<pre>${JSON.stringify(result, null, 2)}</pre>`);
+          } else {
+            responseMessages.push(`<p>No results found</p>`);
+          }
+        } catch (error) {
+          console.error("Raw SQL error:", error);
+          responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
+        }
+      }
+
       // jQuery Vulnerability: CVE-2015-9251
       if (postData.jqueryUrl) {
         const jqueryCode = `<script src="${postData.jqueryUrl}"></script>`;

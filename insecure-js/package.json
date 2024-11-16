@@ -9,7 +9,8 @@
     "sequelize": "4.44.1",
     "@babel/core": "7.0.0-rc.1",
     "mysql2": "^2.3.3",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "pg": "2.18.2"
   },
   "resolutions": {
     "lodash": "4.16.1",
