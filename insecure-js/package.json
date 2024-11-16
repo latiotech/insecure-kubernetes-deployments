@@ -9,7 +9,7 @@
     "lodash": "4.16.1",
     "mysql2": "^2.3.3",
     "semver": "5.4.1",
-    "sequelize": "4.44.4",
+    "sequelize": "4.44.1",
     "sqlite3": "^5.0.2"
   },
   "resolutions": {
