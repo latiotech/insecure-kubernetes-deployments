@@ -11,7 +11,7 @@ output_scanners = [Deanonymize(vault), NoRefusal(), Relevance(), Sensitive()]
 def query(payload, model_id, api_token):
     headers = {"Authorization": f"Bearer {api_token}"}
     API_URL = f"https://api-inference.huggingface.co/models/{model_id}"
-    response = requests.post(API_URL, headers=headers, json={"inputs": payload})
+    response = requests.post(API_URL, headers=headers, json={"inputs": payload}, timeout=60)
     response_text = response.text
     
     sanitized_response_text, results_valid, results_score = scan_output(
