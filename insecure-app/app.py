@@ -4,6 +4,7 @@ import os
 import sqlite3
 import requests
 from lxml import etree
+from security import safe_command
 
 # Example hardcoded AWS credentials (sensitive data leakage)
 aws_access_key_id = 'AKIA2JAPX77RGLB664VE'
@@ -28,7 +29,7 @@ def index():
         # 2 - Command Injection
         if 'command' in request.form:
             cmd = request.form['command']
-            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = safe_command.run(subprocess.Popen, cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
             if process.returncode == 0:
                 output = stdout.decode('utf-8')
