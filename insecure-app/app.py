@@ -82,6 +82,21 @@ def index():
             except Exception as e:
                 output = f"SSRF Error: {e}"
 
+            # 8 - SQL injection with parameter instead of whole query
+        if 'username' in request.form:
+            username = request.form['username']
+            try:
+                # Vulnerable SQL query using string interpolation
+                query = "SELECT password FROM users WHERE username = '{}'".format(username)
+                cursor.execute(query)
+                result = cursor.fetchone()
+                if result:
+                    output = f"Password for {username}: {result[0]}"
+                else:
+                    output = "User not found."
+            except Exception as e:
+                output = f"SQL Error: {e}"
+
     return render_template_string("""
         <h1>Intentionally Insecure App</h1>
         <hr>
@@ -139,7 +154,12 @@ def index():
             <input type="submit" value="Request">
         </form>
         <br>
-
+        <!-- SQL Injection 2 -->
+        <h2>SQL Injection 2</h2>
+        <form action="/" method="post">
+            Enter Username: <input type="text" name="username" value="' UNION SELECT username || ' : ' || password FROM users --">
+            <input type="submit" value="Lookup">
+        </form>
         <hr>
         <pre>{{ output|safe }}</pre>
     """, output=output)
