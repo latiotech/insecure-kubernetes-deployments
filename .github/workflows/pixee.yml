@@ -1,0 +1,23 @@
+name: "Publish SARIF File to Pixee"
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  share:
+    name: Upload Semgrep Results to Pixeebot
+    runs-on: ubuntu-latest
+    steps:
+      # Assuming the file is checked into the repository, we need to check out the code
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: pixee/upload-tool-results-action@v2
+        with:
+          # Use any supported SARIF tool here
+          tool: semgrep
+          # Path to the checked-in SARIF file relative to the repository root
+          file: ./insecure-app/semgrep.sarif

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: * {content='this'}">
+<head>
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h2>Edit Profile</h2>
+    <!-- Vulnerability: IDOR - Users can edit profiles without authorization -->
+    <p><strong>Note:</strong> This page allows editing of user information without verifying ownership.</p>
+    <form action="#" th:action="@{/editProfile}" method="post">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <label>Username: <input type="text" name="username" th:value="${user.username}" /></label><br/>
+        <label>Password: <input type="password" name="password" /></label><br/>
+        <button type="submit">Update Profile</button>
+    </form>
+    <p>Example Payload:</p>
+    <ul>
+        <li>Edit another user's profile by accessing the edit form with their <code>userId</code>, e.g., <code>?userId=2</code>.</li>
+    </ul>
+</body>
+</html>
