@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.insecureJava.namespace | default "insecure-java" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.insecureJava.service.name | default "insecure-java" }}
+  namespace: {{ .Values.insecureJava.namespace | default "insecure-java" }}
+spec:
+  selector:
+    app: {{ .Values.insecureJava.appName | default "insecure-java" }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.insecureJava.service.port | default 3000 }}
+      targetPort: {{ .Values.insecureJava.service.targetPort | default 3000 }}
+  type: NodePort
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.insecureJava.appName | default "insecure-java" }}
+  namespace: {{ .Values.insecureJava.namespace | default "insecure-java" }}
+spec:
+  replicas: {{ .Values.insecureJava.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .Values.insecureJava.appName | default "insecure-java" }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.insecureJava.appName | default "insecure-java" }}
+    spec:
+      containers:
+        - name: {{ .Values.insecureJava.containerName | default "insecure-java" }}
+          image: "{{ .Values.insecureJava.image.repository }}:{{ .Values.insecureJava.image.tag | default "latest" }}"
+          env:
+            - name: NODE_OPTIONS
+              value: "--perf-basic-prof --interpreted-frames-native-stack"
+          ports:
+            - containerPort: {{ .Values.insecureJava.containerPort | default 3000 }}
+

@@ -79,4 +79,3 @@ public class UserController {
         return "redirect:/profile?userId=" + userId;
     }
 }
-}

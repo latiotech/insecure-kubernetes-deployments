@@ -45,22 +45,24 @@ const server = http.createServer((req, res) => {
       const SECRET_KEY = process.env.SECRET_KEY || 'PLACEHOLDER_SECRET_KEY';
       responseMessages.push(`<p>Current Secret Key: ${SECRET_KEY}</p>`);
 
-      // Direct SQL Injection via string concatenation
-      if (postData.rawSql) {
+      // Direct SQL Injection via user-supplied order number
+      if (postData.orderNumber) {
         try {
-          const rawQuery = `${postData.rawSql}`; 
-          responseMessages.push(`<p>Executing raw SQL query: ${rawQuery}</p>`);
-          const result = await sequelize.query(rawQuery, { type: sequelize.QueryTypes.SELECT });
-
-          if (result.length > 0) {
-            responseMessages.push(`<p>Query returned ${result.length} row(s):</p>`);
-            responseMessages.push(`<pre>${JSON.stringify(result, null, 2)}</pre>`);
-          } else {
-            responseMessages.push(`<p>No results found</p>`);
-          }
+            // Concatenate the user input directly into the SQL query
+            const query = `SELECT * FROM Orders WHERE orderNumber = ${postData.orderNumber};`;
+            responseMessages.push(`<p>Executing SQL query: ${query}</p>`);
+        
+            // Execute the raw query
+            const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
+        
+            if (result.length > 0) {
+                responseMessages.push(`<p>Order details:</p><pre>${JSON.stringify(result, null, 2)}</pre>`);
+            } else {
+                responseMessages.push(`<p>No orders found with order number ${postData.orderNumber}</p>`);
+            }
         } catch (error) {
-          console.error("Raw SQL error:", error);
-          responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
+            console.error("SQL query error:", error);
+            responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
         }
       }
 
@@ -221,22 +223,18 @@ const server = http.createServer((req, res) => {
         <body>
           <h2>Package Vulnerability Demo</h2>
           <form action="/" method="POST">
-            <!-- 1. Direct SQL Injection -->
+            <!-- Direct SQL Injection via Order Number -->
             <div>
-              <h3>1. Direct SQL Injection</h3>
-              <label for="rawSql">SQL Query:</label>
-              <input type="text" id="rawSql" name="rawSql" 
-                     value="SELECT name FROM sqlite_master WHERE type='table';" 
-                     style="width: 100%;">
-              <small>Try these payloads:
-                <ul>
-                  <li><code>SELECT name FROM sqlite_master WHERE type='table';</code> (List all tables)</li>
-                  <li><code>SELECT * FROM Users JOIN Passwords ON Users.id = Passwords.userId;</code> (Join Users and Passwords)</li>
-                  <li><code>SELECT sql FROM sqlite_master WHERE type='table';</code> (Show table schemas)</li>
-                </ul>
-              </small>
+                <h3>Direct SQL Injection via Order Number</h3>
+                <label for="orderNumber">Order Number:</label>
+                <input type="text" id="orderNumber" name="orderNumber" value="1001">
+                <small>Try payloads:
+                    <ul>
+                        <li><code>1001 OR 1=1</code></li>
+                        <li><code>1001; DROP TABLE Orders; --</code></li>
+                    </ul>
+                </small>
             </div>
-
             <!-- 2. Sequelize SQL Injection -->
             <div>
               <h3>2. Sequelize SQL Injection (CVE-2019-10748)</h3>

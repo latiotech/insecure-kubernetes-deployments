@@ -2,7 +2,7 @@ apiVersion: v2
 name: insecure-apps
 description: Intentionally insecure Helm chart for testing purposes
 type: application
-version: 0.1.1
+version: 0.2.1
 appVersion: "1.0.0"
 maintainers:
 - email: james@latio.tech
