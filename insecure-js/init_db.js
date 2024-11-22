@@ -1,5 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = new Sequelize("sqlite::memory:");
+const sequelize = new Sequelize("sqlite::memory:", {
+  dialect: "sqlite",
+  dialectOptions: {
+      multipleStatements: true // Enable multiple statements
+  }
+});
 
 // Define User model
 const User = sequelize.define("User", {
@@ -14,13 +19,15 @@ const Password = sequelize.define("Password", {
   hashedPassword: DataTypes.STRING
 });
 
-// Define Order model
+// Define Order model with sensitive fields
 const Order = sequelize.define("Order", {
   orderNumber: DataTypes.INTEGER,
   userId: DataTypes.INTEGER, // Foreign key to associate with User
   product: DataTypes.STRING,
   amount: DataTypes.FLOAT,
-  status: DataTypes.STRING
+  status: DataTypes.STRING,
+  creditCardNumber: DataTypes.STRING, // Sensitive data
+  billingAddress: DataTypes.STRING // Sensitive data
 });
 
 async function init() {
@@ -40,11 +47,11 @@ async function init() {
     { userId: users[2].id, hashedPassword: "hashed_user2_password" }
   ]);
 
-  // Create orders
-  await Order.bulkCreate([
-    { orderNumber: 1001, userId: users[0].id, product: "Laptop", amount: 1500.00, status: "Shipped" },
-    { orderNumber: 1002, userId: users[1].id, product: "Phone", amount: 800.00, status: "Pending" },
-    { orderNumber: 1003, userId: users[2].id, product: "Tablet", amount: 400.00, status: "Delivered" }
+    // Create orders with sensitive data
+    await Order.bulkCreate([
+      { orderNumber: 1001, userId: users[0].id, product: "Laptop", amount: 1500.00, status: "Shipped", creditCardNumber: "4111111111111111", billingAddress: "123 Main St" },
+      { orderNumber: 1002, userId: users[1].id, product: "Phone", amount: 800.00, status: "Pending", creditCardNumber: "4222222222222222", billingAddress: "456 Elm St" },
+      { orderNumber: 1003, userId: users[2].id, product: "Tablet", amount: 400.00, status: "Delivered", creditCardNumber: "4333333333333333", billingAddress: "789 Oak St" }
   ]);
 
   console.log("Database initialized");

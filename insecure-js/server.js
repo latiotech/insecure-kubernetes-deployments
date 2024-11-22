@@ -49,14 +49,14 @@ const server = http.createServer((req, res) => {
       if (postData.orderNumber) {
         try {
             // Concatenate the user input directly into the SQL query
-            const query = `SELECT * FROM Orders WHERE orderNumber = ${postData.orderNumber};`;
+            const query = `SELECT product FROM Orders WHERE orderNumber = ${postData.orderNumber};`;
             responseMessages.push(`<p>Executing SQL query: ${query}</p>`);
-        
+    
             // Execute the raw query
             const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
-        
+    
             if (result.length > 0) {
-                responseMessages.push(`<p>Order details:</p><pre>${JSON.stringify(result, null, 2)}</pre>`);
+                responseMessages.push(`<p>Order details (Product only):</p><pre>${JSON.stringify(result, null, 2)}</pre>`);
             } else {
                 responseMessages.push(`<p>No orders found with order number ${postData.orderNumber}</p>`);
             }
@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
             console.error("SQL query error:", error);
             responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
         }
-      }
+    }
 
       // SQL Injection via Sequelize findAll function - CVE-2019-10748
       if (postData.username) {
@@ -227,10 +227,10 @@ const server = http.createServer((req, res) => {
             <div>
                 <h3>Direct SQL Injection via Order Number</h3>
                 <label for="orderNumber">Order Number:</label>
-                <input type="text" id="orderNumber" name="orderNumber" value="1001">
+                <input type="text" id="orderNumber" name="orderNumber" value="1001 UNION SELECT creditCardNumber FROM Orders --">
                 <small>Try payloads:
                     <ul>
-                        <li><code>1001 OR 1=1</code></li>
+                        <li><code>1001 UNION SELECT creditCardNumber FROM Orders --</code></li>
                         <li><code>1001; DROP TABLE Orders; --</code></li>
                     </ul>
                 </small>
