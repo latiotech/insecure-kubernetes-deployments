@@ -4,6 +4,8 @@ const qs = require('querystring');
 const semver = require('semver');
 const JSON5 = require('json5');
 const { sequelize, User, Password } = require('./init_db');
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./data.db");
 
 const hostname = '0.0.0.0';
 const port = 3000;
@@ -65,6 +67,40 @@ const server = http.createServer((req, res) => {
             responseMessages.push(`<p>An error occurred: ${error.message}</p>`);
         }
     }
+
+    // SQL Injection via sqlite3
+    if (postData.orderNumber2) {
+      // USER-CONTROLLED INPUT: directly concatenated into the SQL query.
+      const userInput = postData.orderNumber2; // Assume unsanitized input from the user
+      
+      // VULNERABLE: Direct concatenation of user input into a SQL query
+      const query2 = "SELECT product FROM Orders WHERE orderNumber = " + userInput + ";"; 
+    
+      responseMessages.push(`<p>Executing SQL query: ${query2}</p>`);
+    
+      // Execute the raw query using sqlite3
+      db.all(query2, [], (err, rows) => {
+        if (err) {
+          console.error("SQL query error:", err.message);
+          responseMessages.push(`<p>An error occurred: ${err.message}</p>`);
+        } else {
+          if (rows.length > 0) {
+            responseMessages.push(
+              `<p>Order details (Product only):</p><pre>${JSON.stringify(rows, null, 2)}</pre>`
+            );
+          } else {
+            responseMessages.push(
+              `<p>No orders found with order number ${userInput}</p>`
+            );
+          }
+        }
+      
+        if (res) {
+          res.end(responseMessages.join(""));
+        }
+      });
+    }
+
 
       // SQL Injection via Sequelize findAll function - CVE-2019-10748
       if (postData.username) {
@@ -228,6 +264,18 @@ const server = http.createServer((req, res) => {
                 <h3>Direct SQL Injection via Order Number</h3>
                 <label for="orderNumber">Order Number:</label>
                 <input type="text" id="orderNumber" name="orderNumber" value="1001 UNION SELECT creditCardNumber FROM Orders --">
+                <small>Try payloads:
+                    <ul>
+                        <li><code>1001 UNION SELECT creditCardNumber FROM Orders --</code></li>
+                        <li><code>1001; DROP TABLE Orders; --</code></li>
+                    </ul>
+                </small>
+            </div>
+            <!-- Direct SQL Injection via sqlite -->
+            <div>
+                <h3>Direct SQL Injection via Order Number</h3>
+                <label for="orderNumber">Order Number:</label>
+                <input type="text" id="orderNumber2" name="orderNumber2" value="1001 UNION SELECT creditCardNumber FROM Orders --">
                 <small>Try payloads:
                     <ul>
                         <li><code>1001 UNION SELECT creditCardNumber FROM Orders --</code></li>
