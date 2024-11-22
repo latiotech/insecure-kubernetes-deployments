@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+</head>
+<body>
+    <h2>Register</h2>
+    <!-- Vulnerability: Broken Authentication - Passwords are stored in plaintext without strength validation. -->
+    <p><strong>Note:</strong> This application stores passwords in plaintext. Please use a simple password for testing purposes.</p>
+    <form action="#" th:action="@{/register}" method="post">
+        <label>Username: <input type="text" name="username" value="user1" /></label><br/>
+        <label>Password: <input type="password" name="password" value="password123" /></label><br/>
+        <button type="submit">Register</button>
+    </form>
+    <p>Example Payload:</p>
+    <ul>
+        <li>Username: <code>user1</code></li>
+        <li>Password: <code>password123</code></li>
+    </ul>
+</body>
+</html>

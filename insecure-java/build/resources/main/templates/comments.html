@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Comments</title>
+</head>
+<body>
+    <h2>Comments</h2>
+    <!-- Vulnerability: Cross-Site Scripting (XSS) - Displaying unsanitized user input allows script execution. -->
+    <p><strong>Note:</strong> The comments below are displayed without sanitization, which can lead to XSS attacks.</p>
+    <ul>
+        <!-- Using th:utext renders unsanitized HTML content -->
+        <li th:each="comment : ${comments}" th:utext="${comment.text}"></li>
+    </ul>
+</body>
+</html>

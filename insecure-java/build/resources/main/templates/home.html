@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Cat Picture App</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Cat Picture App</h1>
+        <nav>
+            <a th:href="@{/register}">Register</a> |
+            <a th:href="@{/login}">Login</a> |
+            <a th:href="@{/addComment}">Add Comment</a> |
+            <a th:href="@{/comments}">View Comments</a> |
+            <a th:href="@{/search}">Search Pictures</a> |
+            <a th:href="@{/delete}">Delete Picture</a>
+        </nav>
+    </header>
+    <main>
+        <p>This application demonstrates various security vulnerabilities for educational purposes.</p>
+        <p>Please select an option from the menu above to explore the functionalities.</p>
+    </main>
+</body>
+</html>

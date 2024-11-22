@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: * {content='this'}">
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h2>User Profile</h2>
+    <!-- Vulnerability: IDOR - No verification of user identity -->
+    <p><strong>Note:</strong> This page displays user information based on the provided user ID without verifying ownership.</p>
+    <p>User ID: <span th:text="${user.id}"></span></p>
+    <p>Username: <span th:text="${user.username}"></span></p>
+    <a th:href="@{'/editProfile'(userId=${user.id})}">Edit Profile</a>
+    <p>Example Payload:</p>
+    <ul>
+        <li>Access another user's profile by changing the <code>userId</code> parameter in the URL, e.g., <code>?userId=2</code>.</li>
+    </ul>
+</body>
+</html>

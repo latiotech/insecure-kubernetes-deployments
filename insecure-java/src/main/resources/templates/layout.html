@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cat Picture App</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <header>
+        <h1>Cat Picture App</h1>
+        <nav>
+            <a th:href="@{/}">Home</a> |
+            <a th:href="@{/register}">Register</a> |
+            <a th:href="@{/login}">Login</a> |
+            <a th:href="@{/addComment}">Add Comment</a> |
+            <a th:href="@{/comments}">View Comments</a> |
+            <a th:href="@{/search}">Search Pictures</a> |
+            <a th:href="@{/delete}">Delete Picture</a>
+        </nav>
+    </header>
+    <main>
+        <div th:replace="${content}"></div>
+    </main>
+</body>
+</html>

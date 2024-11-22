@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Comments</title>
+</head>
+<body>
+    <h2>Comments</h2>
+    <!-- Vulnerability: CSRF - No protection against unauthorized requests -->
+    <p><strong>Note:</strong> Deleting comments does not require any CSRF token, making it vulnerable to CSRF attacks.</p>
+    <ul>
+        <li th:each="comment : ${comments}">
+            <span th:utext="${comment.text}"></span>
+            <form action="#" th:action="@{/deleteComment}" method="post" style="display:inline;">
+                <input type="hidden" name="commentId" th:value="${comment.id}" />
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+    <p>Example Attack:</p>
+    <ul>
+        <li>An attacker can craft a hidden form to delete a comment without the user's knowledge.</li>
+    </ul>
+</body>
+</html>
