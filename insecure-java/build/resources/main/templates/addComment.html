@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Comment</title>
+</head>
+<body>
+    <h2>Add Comment</h2>
+    <!-- Vulnerability: Cross-Site Scripting (XSS) - User input is not sanitized before being displayed. -->
+    <p><strong>Note:</strong> This page is vulnerable to XSS attacks. Malicious scripts can be injected via the comment field.</p>
+    <form action="#" th:action="@{/addComment}" method="post">
+        <label>Comment:</label><br/>
+        <textarea name="commentText" rows="4" cols="50">&lt;script&gt;alert('XSS Attack');&lt;/script&gt;</textarea><br/>
+        <button type="submit">Add Comment</button>
+    </form>
+    <p>Example Payload:</p>
+    <ul>
+        <li>Comment Text: <code>&lt;script&gt;alert('XSS Attack');&lt;/script&gt;</code></li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Comment Result</title>
+</head>
+<body>
+    <h2 th:text="${message}"></h2>
+    <!-- Educational Note: Unsanitized user input can be exploited for XSS attacks. -->
+    <p><strong>Note:</strong> The comment you added may contain scripts that execute when viewing comments.</p>
+</body>
+</html>

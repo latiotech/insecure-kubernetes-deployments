@@ -1,26 +1,42 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.4'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.3' // Use a compatible Spring Boot version
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+}
+
+springBoot {
+    mainClass = 'com.example.catapp.CatAppApplication'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-
-java {
-	sourceCompatibility = '17'
-}
+sourceCompatibility = '11' // Set your Java version here
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
+    // Spring Boot Starter Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Spring Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // H2 Database (In-memory database)
+    runtimeOnly 'com.h2database:h2'
+
+    // Thymeleaf Template Engine
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Lombok (Optional: Remove if not using Lombok)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Testing (Optional)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

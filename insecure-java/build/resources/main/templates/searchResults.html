@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h2>Search Results</h2>
+    <p>Results for your search query:</p>
+    <ul>
+        <li th:each="picture : ${pictures}">
+            <img th:src="${picture.url}" th:alt="${picture.name}" width="200"/><br/>
+            <span th:text="${picture.name}"></span>
+        </li>
+    </ul>
+    <!-- Educational Note: If you used the SQL Injection payload, you might see all records returned. -->
+</body>
+</html>

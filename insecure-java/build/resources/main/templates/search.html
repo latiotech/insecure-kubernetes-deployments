@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Pictures</title>
+</head>
+<body>
+    <h2>Search Cat Pictures</h2>
+    <!-- Vulnerability: SQL Injection - User input is directly concatenated into SQL queries. -->
+    <p><strong>Note:</strong> This search is vulnerable to SQL Injection attacks. Malicious SQL code can be injected via the name field.</p>
+    <form action="#" th:action="@{/search}" method="post">
+        <label>Name: <input type="text" name="name" value="' OR '1'='1" /></label><br/>
+        <button type="submit">Search</button>
+    </form>
+    <p>Example Payload:</p>
+    <ul>
+        <li>Name: <code>' OR '1'='1</code></li>
+    </ul>
+</body>
+</html>
