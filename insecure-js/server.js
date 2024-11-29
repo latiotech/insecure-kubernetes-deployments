@@ -70,6 +70,34 @@ const server = http.createServer((req, res) => {
       const SECRET_KEY = process.env.SECRET_KEY || 'PLACEHOLDER_SECRET_KEY';
       responseMessages.push(`<p>Current Secret Key: ${SECRET_KEY}</p>`);
 
+      // SQL Injection via mysql, but doesn't actually run
+      if (postData.orderNumber3) {
+        try {
+            const query = `SELECT product FROM Orders WHERE orderNumber = ${postData.orderNumber3};`;
+            responseMessages.push(`<p>Executing SQL query: ${query}</p>`);
+        
+            connection.query(query, (err, rows) => {
+                if (err) {
+                    console.error("SQL query error:", err);
+                    responseMessages.push(`<p>An error occurred: ${err.message}</p>`);
+                } else {
+                    if (rows.length > 0) {
+                        responseMessages.push(`<p>Order details (Product only):</p><pre>${JSON.stringify(rows, null, 2)}</pre>`);
+                    } else {
+                        responseMessages.push(`<p>No orders found with order number ${postData.orderNumber3}</p>`);
+                    }
+                }
+              
+                if (res) {
+                    res.end(responseMessages.join(""));
+                }
+            });
+        } catch (error) {
+            console.error("SQL query execution error:", error);
+            responseMessages.push(`<p>An unexpected error occurred: ${error.message}</p>`);
+        }
+      }
+
       try {
         // Collect all async operations into an array of promises
         let asyncTasks = [];
