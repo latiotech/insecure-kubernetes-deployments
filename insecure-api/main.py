@@ -101,8 +101,8 @@ def search_games(query: str):
     conn = sqlite3.connect('videogames.db')
     cursor = conn.cursor()
     # BAD: Directly inserting user input into SQL query without sanitization
-    sql_query = f"SELECT * FROM video_games WHERE title LIKE '%{query}%'"
-    cursor.execute(sql_query)
+    sql_query = "SELECT * FROM video_games WHERE title LIKE ?"
+    cursor.execute(sql_query, ('%{0}%'.format(query), ))
     rows = cursor.fetchall()
     conn.close()
     # Convert rows to list of dictionaries
