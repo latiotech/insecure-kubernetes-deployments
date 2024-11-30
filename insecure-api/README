@@ -1,0 +1,255 @@
+# **Intentionally Insecure Video Game API**
+
+This project is an intentionally insecure API designed for educational purposes to demonstrate common security vulnerabilities as outlined in the OWASP Top 10 for APIs. The API provides information about video games and includes administrative functions that are vulnerable to various security flaws.
+
+---
+
+## **Table of Contents**
+
+* Features  
+* Prerequisites  
+* Setup and Installation  
+* Running the API  
+* API Endpoints  
+* Testing Security Issues  
+  * Vulnerability 1: Broken Object Level Authorization  
+  * Vulnerability 2: Broken Authentication  
+  * Vulnerability 3: Excessive Data Exposure  
+  * Vulnerability 4: Security Misconfiguration  
+  * Vulnerability 5: Lack of Rate Limiting  
+* Example CURL Commands  
+* Disclaimer
+
+---
+
+## **Features**
+
+* **Public Access:**  
+  * Retrieve basic information about video games (developer, publisher, year published).  
+* **Authentication (Insecure):**  
+  * Access sensitive sales data for video games.  
+  * Administrative functions to add new video games (requires admin token).  
+* **Intentionally Insecure Aspects:**  
+  * Exposes vulnerabilities from the OWASP Top 10 for APIs.  
+  * Comments in the code indicate where vulnerabilities are present.
+
+---
+
+## **Prerequisites**
+
+* **Python 3.7+**  
+* **pip package manager**
+
+---
+
+## **Setup and Installation**
+
+### **1\. Clone the Repository**
+    
+```
+git clone https://github.com/yourusername/insecure-api.git  
+cd insecure-api
+```
+
+### **2\. Create a Virtual Environment**
+
+```    
+# Create virtual environment
+python -m venv venv
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On Unix or MacOS
+source venv/bin/activate
+```
+
+### **3\. Install Dependencies**
+
+```
+pip install -r requirements.txt
+
+*If requirements.txt is not present, install directly:*
+    
+pip install fastapi uvicorn
+```
+---
+
+## **Running the API**
+
+Start the API server using Uvicorn:
+    
+`uvicorn main:app --reload`
+
+* **Note:** The `--reload` flag enables auto-reloading of the server on code changes, but it is not recommended for production environments.
+
+---
+
+## **API Endpoints**
+
+### **Public Endpoints**
+
+* **GET** `/games`  
+  Retrieve a list of video games with basic information.
+* **GET** `/docs`   
+  OpenAPI docs
+
+### **Protected Endpoints (Insecure Authentication)**
+
+* **GET** `/games/{game_id}/sales`  
+  Retrieve sales data for a specific game (no authentication required).  
+* **POST** `/games`  
+  Add a new video game to the database (requires admin token).  
+* **GET** `/users`  
+  Retrieve user information, including tokens and admin status.
+
+---
+
+## **Testing Security Issues**
+
+Below are some of the security vulnerabilities present in the API and how to test them.
+
+### **Vulnerability 1: Broken Object Level Authorization**
+
+**Issue:** The goal of this app is that someone needs to buy a paid account in order to access sales data. We don't actually check for the login before presenting that data. This is important because it's something scanners can't check for without application context!
+
+**Endpoint:** `GET /games/{game_id}/sales`
+
+**Testing:**
+    
+`curl -X GET "http://127.0.0.1:8000/games/1/sales"`
+
+---
+
+### **Vulnerability 2: Broken Authentication**
+
+**Issue:** Uses a static header to determine if a user is allowed to create a game or not
+
+**Endpoint:** `POST /games`
+
+**Testing:**
+
+**Without Token:**      
+```
+curl -X POST "http://127.0.0.1:8000/games" \
+     -H "Content-Type: application/json" \
+     -d '{"id":151,"title":"New Game","developer":"Dev","publisher":"Pub","year_published":2024,"sales":0}'
+```
+
+**With User Token (Non-Admin):**    
+```  
+curl -X POST "http://127.0.0.1:8000/games" \
+     -H "Content-Type: application/json" \
+     -H "token: user1token" \
+     -d '{"id":151,"title":"New Game","developer":"Dev","publisher":"Pub","year_published":2024,"sales":0}'
+```
+
+**With Admin Token:**
+```      
+curl -X POST "http://127.0.0.1:8000/games" \
+     -H "Content-Type: application/json" \
+     -H "token: admintoken" \
+     -d '{"id":151,"title":"New Game","developer":"Dev","publisher":"Pub","year_published":2024,"sales":0}'
+```
+---
+
+### **Vulnerability 3: Excessive Data Exposure**
+
+**Issue:** Returns the entire user list, including tokens and admin status.
+
+**Endpoint:** `GET /users`
+
+**Testing:**
+    
+`curl -X GET "http://127.0.0.1:8000/users"`
+
+---
+
+### **Vulnerability 4: Security Misconfiguration**
+
+**Issue:** The API runs with debug mode enabled and does not enforce HTTPS.
+
+* The API is accessible via HTTP, allowing potential interception of data.  
+* The OpenAPI documentation is exposed at `/docs`.
+
+**Testing:**
+
+Access the API documentation:      
+`Open a browser and navigate to http://127.0.0.1:8000/docs`
+
+* 
+
+---
+
+### **Vulnerability 5: Lack of Rate Limiting**
+
+**Issue:** No rate limiting is implemented, making the API susceptible to brute-force attacks.
+
+**Testing:**
+
+Perform multiple rapid requests to an endpoint:
+```
+for i in {1..100}; do  
+  curl -X GET "http://127.0.0.1:8000/games/1/sales"  
+done
+```
+---
+
+### **Vulnerability 6: Mass Assignment**
+
+**Endpoint: `/games/{game_id}`**
+
+**Issue:** Allows updating fields that should be immutable or restricted
+
+**Example CURL Command:**
+```
+curl -X PUT "http://127.0.0.1:8000/games/1" \
+-H "Content-Type: application/json" \
+-d '{"id":1,"title":"Hacked Game","developer":"Bad Dev","publisher":"Bad Pub","year_published":2024,"sales":9999999}'
+```
+
+### **Vulnerability 7: SQL Injection**
+
+**Endpoint: `/search`**
+
+**Issue:** Unsanitized input could lead to injection attacks.
+
+`curl -X GET "http://127.0.0.1:8000/search?query=%27%20OR%20%271%27%3D%271%27%20--%20"`
+
+### **Vulnerability 8.: Improper Assets Management**
+
+**Endpoint: `/.env`**
+
+**Issue:** Exposes sensitive configuration files.
+
+**Example CURL Command:**
+
+`curl -X GET "http://127.0.0.1:8000/.env"`
+
+### **Vulnerability 9: Insufficient Logging & Monitoring**
+
+**Endpoint: `/admin/delete_game`**
+
+**Issue:** Administrative actions are not logged.
+```
+curl -X POST "http://127.0.0.1:8000/admin/delete_game" \
+-H "token: admintoken" \
+-d "game_id=1"
+```
+
+---
+
+## **Disclaimer**
+
+**This API is intentionally insecure and should NOT be used in production environments. It is designed solely for educational purposes to demonstrate common security vulnerabilities. Use this API responsibly and ethically.**
+
+---
+
+## **Important Notes**
+
+* **Educational Use Only:** This project is intended to help developers learn about API security vulnerabilities in a controlled environment.  
+* **Do Not Deploy Publicly:** Running this API on a public server can expose you and others to security risks.  
+* **Legal and Ethical Responsibility:** Ensure you comply with all applicable laws and ethical guidelines when using or modifying this code.
+
+---
+
+**Thank you for using this educational API to enhance your understanding of API security\!**

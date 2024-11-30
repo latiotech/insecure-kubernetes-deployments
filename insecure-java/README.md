@@ -215,24 +215,7 @@ Copy code
 * Implement proper access controls.  
 * Use HTTPS for secure communication.
 
----
-
-### **4\. XML External Entities (XXE)**
-
-*Note: This vulnerability is not explicitly implemented in the application but is mentioned here for completeness.*
-
-#### **Description**
-
-XXE attacks exploit vulnerabilities in XML parsers to access or manipulate data.
-
-#### **Mitigation**
-
-* Disable external entity processing in XML parsers.  
-* Use less complex data formats like JSON.
-
----
-
-### **5\. Broken Access Control**
+### **4\. Broken Access Control**
 
 #### **Description**
 
@@ -274,7 +257,7 @@ Copy code
 
 ---
 
-### **6\. Security Misconfiguration**
+### **5\. Security Misconfiguration**
 
 #### **Description**
 
@@ -320,7 +303,7 @@ Copy code
 
 ---
 
-### **7\. Cross-Site Scripting (XSS)**
+### **6\. Cross-Site Scripting (XSS)**
 
 #### **Description**
 
@@ -371,21 +354,6 @@ Copy code
 
 ---
 
-### **8\. Insecure Deserialization**
-
-*Note: Not explicitly implemented but included for educational purposes.*
-
-#### **Description**
-
-Insecure deserialization can lead to remote code execution or privilege escalation.
-
-#### **Mitigation**
-
-* Avoid deserializing untrusted data.  
-* Use secure serialization mechanisms.
-
----
-
 ### **9\. Using Components with Known Vulnerabilities**
 
 #### **Description**
@@ -420,20 +388,7 @@ Copy code
 
 ---
 
-### **10\. Insufficient Logging & Monitoring**
-
-#### **Description**
-
-The application lacks proper logging and monitoring, hindering detection of security breaches.
-
-#### **Mitigation**
-
-* Implement comprehensive logging.  
-* Monitor logs for suspicious activities.
-
----
-
-### **11\. Insecure Direct Object References (IDOR)**
+### **10\. Insecure Direct Object References (IDOR)**
 
 #### **Description**
 
@@ -481,7 +436,7 @@ Copy code
 
 ---
 
-### **12\. Cross-Site Request Forgery (CSRF)**
+### **11\. Cross-Site Request Forgery (CSRF)**
 
 #### **Description**
 

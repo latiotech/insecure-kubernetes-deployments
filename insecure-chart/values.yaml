@@ -53,3 +53,17 @@ workloadSecurityEvaluator:
   ports:
     http: 8080
     ssh: 22
+
+insecureApi:
+  namespace: insecure-api
+  appName: insecure-api
+  containerName: insecure-api
+  service:
+    name: insecure-api
+    port: 8000
+    targetPort: 8000
+  replicas: 1
+  image:
+    repository: confusedcrib/insecure-api
+    tag: latest
+  containerPort: 8000
