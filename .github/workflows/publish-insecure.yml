@@ -31,6 +31,10 @@ jobs:
             image: confusedcrib/workload-security-evaluator
             context: ./workload-security-evaluator
             dockerfile: ./workload-security-evaluator/Dockerfile
+          - name: insecure-api
+            image: confusedcrib/insecure-api
+            context: ./insecure-api
+            dockerfile: ./insecure-api/Dockerfile
 
     steps:
       - name: Check out the repo
