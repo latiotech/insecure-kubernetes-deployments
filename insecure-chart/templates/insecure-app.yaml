@@ -22,8 +22,6 @@ spec:
           value: AKIA2JAPX77RGLB664VE
         - name: AWS_SECRET_ACCESS_KEY
           value: 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
-        securityContext:
-          privileged: true
         volumeMounts:                   
         - name: docker-socket
           mountPath: /var/run/docker.sock
