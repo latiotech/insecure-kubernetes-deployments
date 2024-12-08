@@ -67,7 +67,7 @@ def index():
             xml_data = request.form['xml']
             try:
                 # Use lxml to parse the XML data
-                parser = etree.XMLParser(load_dtd=True, resolve_entities=True)
+                parser = etree.XMLParser(load_dtd=True, resolve_entities=False)
                 tree = etree.fromstring(xml_data.encode(), parser)
                 output = f"Parsed XML: {etree.tostring(tree, encoding='unicode')}"
             except Exception as e:
