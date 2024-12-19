@@ -4,8 +4,18 @@ from models import VideoGame, User
 from database import video_games, users
 import sqlite3
 import os
+import requests
+from fastapi.responses import RedirectResponse
 
-app = FastAPI()
+app = FastAPI(
+    title="Intentionally Insecure Video Game API",
+    description="An API designed for security education, demonstrating common vulnerabilities.",
+    version="1.0.0",
+    contact={
+        "name": "Your Name",
+        "email": "your.email@example.com",
+    },
+)
 
 # Initialize the SQLite database
 def init_db():
@@ -53,10 +63,15 @@ def get_game_sales(game_id: int):
 
 # Vulnerable endpoint: Weak authentication and improper authorization
 @app.post("/games")
-def add_game(game: VideoGame, token: Optional[str] = Header(None)):
-    # Vulnerability: Token sent in header without proper validation (API2:2019 - Broken Authentication)
-    if not token:
-        raise HTTPException(status_code=401, detail="Token required")
+def add_game(game: VideoGame, Authorization: Optional[str] = Header(None)):
+    # Vulnerability: Token sent in Authorization header without proper validation (API2:2019 - Broken Authentication)
+    if not Authorization:
+        raise HTTPException(status_code=401, detail="Authorization header required")
+
+    # Extract Bearer token
+    if not Authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid Authorization header format")
+    token = Authorization.split(" ")[1]
 
     # Vulnerability: Insecure token handling and authorization (API5:2019 - Broken Function Level Authorization)
     for user in users:
@@ -97,14 +112,17 @@ def update_game(game_id: int, updated_game: VideoGame):
 @app.get("/search")
 def search_games(query: str):
     # Vulnerability: User input is not sanitized (API8:2019 - Injection)
-    # This allows SQL injection attacks
     conn = sqlite3.connect('videogames.db')
     cursor = conn.cursor()
-    # BAD: Directly inserting user input into SQL query without sanitization
-    sql_query = f"SELECT * FROM video_games WHERE title LIKE '%{query}%'"
-    cursor.execute(sql_query)
-    rows = cursor.fetchall()
-    conn.close()
+    try:
+        sql_query = f"SELECT * FROM video_games WHERE title = '{query}'"
+        cursor.execute(sql_query)
+        rows = cursor.fetchall()
+    except Exception as e:
+        # Return the exception message for educational purposes (not recommended in production)
+        return {"error": str(e)}
+    finally:
+        conn.close()
     # Convert rows to list of dictionaries
     results = []
     for row in rows:
@@ -126,10 +144,15 @@ def get_env():
 
 # Additional vulnerable endpoint: Insufficient logging and monitoring
 @app.post("/admin/delete_game")
-def delete_game(game_id: int, token: Optional[str] = Header(None)):
+def delete_game(game_id: int, Authorization: Optional[str] = Header(None)):
     # Vulnerability: Actions are not logged (API10:2019 - Insufficient Logging & Monitoring)
-    if not token:
-        raise HTTPException(status_code=401, detail="Token required")
+    if not Authorization:
+        raise HTTPException(status_code=401, detail="Authorization header required")
+
+    # Extract Bearer token
+    if not Authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid Authorization header format")
+    token = Authorization.split(" ")[1]
 
     for user in users:
         if user.token == token and user.is_admin:
@@ -140,3 +163,52 @@ def delete_game(game_id: int, token: Optional[str] = Header(None)):
                     return {"message": f"Game '{deleted_game.title}' deleted"}
             raise HTTPException(status_code=404, detail="Game not found")
     raise HTTPException(status_code=403, detail="Not authorized")
+
+@app.post("/feedback")
+def submit_feedback(feedback: str):
+    # Vulnerability: User input is not sanitized before rendering (API7:2019 - Security Misconfiguration)
+    response = HTMLResponse(content=f"<html><body><h1>Feedback Received</h1><p>{feedback}</p></body></html>")
+    return response
+
+# Additional vulnerable endpoint: Insecure Direct Object References (IDOR)
+@app.get("/user_profile")
+def get_user_profile(user_id: int):
+    # Vulnerability: No authorization checks (API1:2019 - Broken Object Level Authorization)
+    for user in users:
+        if user.username == f"user{user_id}":
+            return user
+    raise HTTPException(status_code=404, detail="User not found")
+
+# Additional vulnerable endpoint: Cross-Site Request Forgery (CSRF)
+@app.post("/update_profile")
+def update_profile(username: str, email: str, Authorization: Optional[str] = Header(None)):
+    # Vulnerability: No CSRF protection (API5:2019 - Broken Function Level Authorization)
+    if not Authorization:
+        raise HTTPException(status_code=401, detail="Authorization header required")
+    # Extract Bearer token
+    if not Authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid Authorization header format")
+    token = Authorization.split(" ")[1]
+    # Simulate updating user profile
+    for user in users:
+        if user.token == token:
+            user.username = username
+            user.email = email  # Assuming 'email' field exists in User model
+            return {"message": "Profile updated"}
+    raise HTTPException(status_code=401, detail="Invalid token")
+
+# Additional vulnerable endpoint: Server-Side Request Forgery (SSRF)
+@app.get("/fetch_url")
+def fetch_url_content(url: str):
+    # Vulnerability: No validation of the URL (API10:2019 - Unsafe Consumption of APIs)
+    try:
+        response = requests.get(url)
+        return {"content": response.text}
+    except Exception as e:
+        return {"error": str(e)}
+
+# Additional vulnerable endpoint: Unvalidated Redirects and Forwards
+@app.get("/redirect")
+def unsafe_redirect(next: str):
+    # Vulnerability: Unvalidated redirect (API10:2019 - Unsafe Consumption of APIs)
+    return RedirectResponse(url=next)

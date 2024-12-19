@@ -1,0 +1,34 @@
+# -- stackhawk configuration for fastapi --
+app:
+  # -- An applicationId obtained from the StackHawk platform. --
+  applicationId: 7b0e0603-c269-4353-8ee0-6ee39f7c3f2b # (required)
+  # -- The environment for the applicationId defined in the StackHawk platform. --
+  env: Development # (required)
+  # -- The url of your application to scan --
+  host:  http://localhost:8000 # (required)
+
+
+# -- Customized Configuration for GraphQL/SOAP/OpenAPI, add here --
+  openApiConf:
+    path: /openapi.json # OR...
+#     filePath: openApi.json
+  autoPolicy: true
+  autoInputVectors: true
+  # Configuration Docs: https://docs.stackhawk.com/hawkscan/configuration/
+
+# -- If Authenticated Scanning is needed, add here --
+tokenAuthorization:
+  # The method by which the token will be passed to your application.
+  # In this case a header is expected
+  type: HEADER
+  # The name of the header that the token will be passed with requests authenticated routes.
+  value: admintoken
+  # The token type when using the Authorization header as is being used here.
+  # Bearer is the most common value but custom names like "JWT" or "token" are sometimes required.
+  tokenType: Bearer   
+  # Authenticated Scanning Docs: https://docs.stackhawk.com/hawkscan/authenticated-scanning.html
+  # Authenticated Scanning Repo: https://github.com/kaakaww/scan-configuration/tree/main/Authentication
+
+# -- Help Section --
+  # Docs: https://docs.stackhawk.com/
+  # Contact Support: support@stackhawk.com

@@ -155,6 +155,7 @@ video_games = [
 ]
 
 users = [
-    User(username="user1", token="user1token", is_admin=False),
-    User(username="admin", token="admintoken", is_admin=True),
+    User(username="user1", token="user1token", is_admin=False, email="user1@example.com"),
+    User(username="admin", token="admintoken", is_admin=True, email="admin@example.com"),
 ]
+

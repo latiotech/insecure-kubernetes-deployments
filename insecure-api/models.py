@@ -6,9 +6,10 @@ class VideoGame(BaseModel):
     developer: str
     publisher: str
     year_published: int
-    sales: int  # Number of sales
+    sales: int
 
 class User(BaseModel):
     username: str
     token: str
-    is_admin: bool = False
+    is_admin: bool
+    email: str

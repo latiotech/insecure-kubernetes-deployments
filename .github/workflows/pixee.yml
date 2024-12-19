@@ -1,14 +1,33 @@
-name: "Publish SARIF File to Pixee"
-on:
+name: Snyk Analysis
+
+on: 
   workflow_dispatch:
+  push:
 
 permissions:
   contents: read
   id-token: write
 
 jobs:
-  share:
-    name: Upload Semgrep Results to Pixeebot
+  snyk:
+    name: Snyk Security Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: snyk/actions/setup@0.4.0
+      - name: Run Snyk Code
+        run: snyk code test --org=personal --sarif-file-output=pixee-snyk.sarif.json
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Remediate Snyk Findings with Pixee
+        uses: pixee/upload-tool-results-action@v2
+        with:
+          tool: snyk
+          file: pixee-snyk.sarif.json
+          pixee-api-url: "https://latio.getpixee.com"
+  semgrep:   
+    name: Snyk Security Analysis
     runs-on: ubuntu-latest
     steps:
       # Assuming the file is checked into the repository, we need to check out the code
