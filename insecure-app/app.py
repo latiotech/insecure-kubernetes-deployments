@@ -4,6 +4,7 @@ import os
 import sqlite3
 from lxml import etree
 from security import safe_requests, safe_command
+import lxml.etree
 
 # Example hardcoded AWS credentials (sensitive data leakage)
 aws_access_key_id = 'AKIA2JAPX77RGLB664VE'
@@ -68,7 +69,7 @@ def index():
             try:
                 # Use lxml to parse the XML data
                 parser = etree.XMLParser(load_dtd=True, resolve_entities=False)
-                tree = etree.fromstring(xml_data.encode(), parser)
+                tree = etree.fromstring(xml_data.encode(), parser, parser=lxml.etree.XMLParser(resolve_entities=False))
                 output = f"Parsed XML: {etree.tostring(tree, encoding='unicode')}"
             except Exception as e:
                 output = f"XML Parsing Error: {e}"
