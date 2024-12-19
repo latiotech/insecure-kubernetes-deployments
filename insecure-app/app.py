@@ -77,7 +77,7 @@ def index():
         elif 'url' in request.form:
             url = request.form['url']
             try:
-                response = requests.get(url)
+                response = requests.get(url, timeout=60)
                 output = f"SSRF Response: {response.text[:200]}"
             except Exception as e:
                 output = f"SSRF Error: {e}"
