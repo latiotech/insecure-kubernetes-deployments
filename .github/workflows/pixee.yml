@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: snyk/actions/setup@0.4.0
       - name: Run Snyk Code
-        run: snyk code test --org=personal --sarif-file-output=pixee-snyk.sarif.json
+        run: snyk code test --org=personal-S75uTmrVsW9D2mctWJPs9d --sarif-file-output=pixee-snyk.sarif.json
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
