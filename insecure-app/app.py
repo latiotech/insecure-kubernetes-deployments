@@ -2,8 +2,9 @@ from flask import Flask, request, render_template_string, jsonify
 import subprocess
 import os
 import sqlite3
-import requests
 from lxml import etree
+from security import safe_requests, safe_command
+import lxml.etree
 
 # Example hardcoded AWS credentials (sensitive data leakage)
 aws_access_key_id = 'AKIA2JAPX77RGLB664VE'
@@ -28,7 +29,7 @@ def index():
         # 2 - Command Injection
         if 'command' in request.form:
             cmd = request.form['command']
-            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = safe_command.run(subprocess.Popen, cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
             if process.returncode == 0:
                 output = stdout.decode('utf-8')
@@ -67,8 +68,8 @@ def index():
             xml_data = request.form['xml']
             try:
                 # Use lxml to parse the XML data
-                parser = etree.XMLParser(load_dtd=True, resolve_entities=True)
-                tree = etree.fromstring(xml_data.encode(), parser)
+                parser = etree.XMLParser(load_dtd=True, resolve_entities=False)
+                tree = etree.fromstring(xml_data.encode(), parser, parser=lxml.etree.XMLParser(resolve_entities=False))
                 output = f"Parsed XML: {etree.tostring(tree, encoding='unicode')}"
             except Exception as e:
                 output = f"XML Parsing Error: {e}"
@@ -77,7 +78,7 @@ def index():
         elif 'url' in request.form:
             url = request.form['url']
             try:
-                response = requests.get(url, timeout=60)
+                response = safe_requests.get(url, timeout=60)
                 output = f"SSRF Response: {response.text[:200]}"
             except Exception as e:
                 output = f"SSRF Error: {e}"
