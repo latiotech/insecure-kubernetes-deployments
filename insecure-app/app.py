@@ -2,9 +2,8 @@ from flask import Flask, request, render_template_string, jsonify
 import subprocess
 import os
 import sqlite3
-import requests
 from lxml import etree
-from security import safe_command
+from security import safe_requests, safe_command
 
 # Example hardcoded AWS credentials (sensitive data leakage)
 aws_access_key_id = 'AKIA2JAPX77RGLB664VE'
@@ -78,7 +77,7 @@ def index():
         elif 'url' in request.form:
             url = request.form['url']
             try:
-                response = requests.get(url, timeout=60)
+                response = safe_requests.get(url, timeout=60)
                 output = f"SSRF Response: {response.text[:200]}"
             except Exception as e:
                 output = f"SSRF Error: {e}"
