@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   snyk:
-    name: Snyk Security Analysis
+    name: Pixee Snyk Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,17 +26,3 @@ jobs:
           tool: snyk
           file: pixee-snyk.sarif.json
           pixee-api-url: "https://latio.getpixee.com"
-  semgrep:   
-    name: Snyk Security Analysis
-    runs-on: ubuntu-latest
-    steps:
-      # Assuming the file is checked into the repository, we need to check out the code
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: pixee/upload-tool-results-action@v2
-        with:
-          # Use any supported SARIF tool here
-          tool: semgrep
-          # Path to the checked-in SARIF file relative to the repository root
-          file: ./insecure-app/semgrep.sarif
