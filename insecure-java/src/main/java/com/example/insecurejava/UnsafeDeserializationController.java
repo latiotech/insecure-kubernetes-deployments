@@ -1,4 +1,5 @@
 package com.example.insecurejava;
+import static io.github.pixee.security.ObjectInputFilters.createSafeObjectInputStream;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,7 @@ public class UnsafeDeserializationController {
     @PostMapping("/unsafeDeserialize")
     public ResponseEntity<String> unsafeDeserialization(@RequestBody byte[] data) {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+            ObjectInputStream ois = createSafeObjectInputStream(new ByteArrayInputStream(data));
             Object deserializedObject = ois.readObject();
             return ResponseEntity.ok("Object deserialized: " + deserializedObject.toString());
         } catch (Exception e) {
