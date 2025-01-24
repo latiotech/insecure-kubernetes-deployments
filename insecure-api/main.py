@@ -115,8 +115,8 @@ def search_games(query: str):
     conn = sqlite3.connect('videogames.db')
     cursor = conn.cursor()
     try:
-        sql_query = f"SELECT * FROM video_games WHERE title = '{query}'"
-        cursor.execute(sql_query)
+        sql_query = "SELECT * FROM video_games WHERE title = ?"
+        cursor.execute(sql_query, (query,))
         rows = cursor.fetchall()
     except Exception as e:
         # Return the exception message for educational purposes (not recommended in production)
