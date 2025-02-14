@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s-5
+spec:
+  containers:
+    - name: s-5
+      image: ndnb/scenario5:latest
+      command: ["/bin/sh", "-c"]
+      args:
+      - | 
+        ./can-they.sh
+        sleep infinity
+      volumeMounts:
+      - name: noderoot
+        mountPath: /host
+  volumes:
+   - name: noderoot
+     hostPath:
+       path: /
+
