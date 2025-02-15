@@ -105,7 +105,7 @@ const server = http.createServer((req, res) => {
         // Direct SQL Injection via Sequelize
         if (postData.orderNumber) {
           const index = responseMessages.length;
-          responseMessages.push(`<h3>1. Sequelize Injection</h3>`); // Add header immediately
+          responseMessages.push(`<h3>1. Sequelize Injection</h3>`);
           asyncTasks.push(
             (async () => {
               try {
@@ -124,8 +124,7 @@ const server = http.createServer((req, res) => {
         // Direct SQL Injection via sqlite3
         if (postData.orderNumber2) {
           const index = responseMessages.length;
-          responseMessages.push(`<h3>2. SQLite Injection</h3>`); // Add header immediately
-          asyncTasks.push(
+          responseMessages.push(`<h3>2. SQLite Injection</h3>`); 
             new Promise((resolve) => {
               const query = `SELECT product FROM Orders WHERE orderNumber = ${postData.orderNumber2};`;
               db.all(query, [], (err, rows) => {
