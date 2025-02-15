@@ -49,9 +49,19 @@ def startup_event():
 
 # Public endpoint to get basic video game info
 @app.get("/games")
-def get_games():
+def get_games(query: str):
+    conn = sqlite3.connect('videogames.db')
+    cursor = conn.cursor()
+    try:
+        sql_query = f"SELECT * FROM tiles WHERE title = '{query}'"
+        cursor.execute(sql_query)
+        video_games = cursor.fetchall()
+    except Exception as e:
+        # Return the exception message for educational purposes (not recommended in production)
+        return {"error": str(e)}
+    finally:
+        conn.close()
     return video_games
-
 # Vulnerable endpoint: No authentication required to get sensitive sales data
 @app.get("/games/{game_id}/sales")
 def get_game_sales(game_id: int):
