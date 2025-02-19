@@ -19,6 +19,9 @@ repositories {
 dependencies {
     // Spring Boot Starter Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    constraints {
+        implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.98'
+    }
 
     // Spring Data JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
