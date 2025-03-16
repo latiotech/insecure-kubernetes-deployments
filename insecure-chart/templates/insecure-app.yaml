@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         app: {{ .Values.insecureApp.appName }}
+      annotations:
+        kubescape.io/max-sniffing-time: "5m"
     spec:
       containers:
       - name: {{ .Values.insecureApp.appName }}
