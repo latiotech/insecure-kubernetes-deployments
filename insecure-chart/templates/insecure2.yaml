@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.insecureApp.appName }}
+  namespace: {{ .Values.insecureApp.namespace }}
+spec:
+  replicas: {{ .Values.insecureApp.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.insecureApp.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.insecureApp.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.insecureApp.appName }}
+        image: "{{ .Values.insecureApp.image.repository }}:{{ .Values.insecureApp.image.tag }}"
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          value: AKIA2JAPX77RGLB664VE
+        - name: AWS_SECRET_ACCESS_KEY
+          value: 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
+        securityContext:
+          privileged: true
+        volumeMounts:                   
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+      volumes:                         
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+      serviceAccountName: insecure-app-sa
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: insecure-app
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: NodePort
+  selector:
+    app: insecure-app
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  - name: ssh
+    port: 22
+    targetPort: 22
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: insecure-app-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "serviceaccounts", "serviceaccounts/token"]
+  verbs: ["*"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: insecure-app-role-binding
+subjects:
+- kind: ServiceAccount
+  name: insecure-app-sa
+  namespace: {{ .Release.Namespace }}
+  apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: insecure-app-role
+  apiGroup: ""
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: insecure-app-sa
+  namespace: {{ .Release.Namespace }}
