@@ -19,4 +19,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Amplify Runner
-        uses: amplify-security/runner-action@main
+        uses: amplify-security/runner-action@8697d6900ac891b97ad712aaa6d5d64a59daa6ee
