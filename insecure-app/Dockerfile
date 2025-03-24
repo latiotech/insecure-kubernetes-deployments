@@ -19,8 +19,8 @@ RUN mkdir /app
 WORKDIR /app
 
 # Add application and requirements.txt
-ADD ./insecure-app/app.py /app/
-ADD ./insecure-app/requirements.txt /app/ 
+COPY app.py /app/
+COPY requirements.txt /app/
 
 # Install Python packages from requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.txt

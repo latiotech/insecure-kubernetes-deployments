@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  insecure-app:
+    build:
+      context: ./insecure-app
+      dockerfile: Dockerfile
+    image: confusedcrib/insecure-app:latest
+
+  insecure-java:
+    build:
+      context: ./insecure-java
+      dockerfile: Dockerfile
+    image: confusedcrib/insecure-java:latest
+
+  insecure-js:
+    build:
+      context: ./insecure-js
+      dockerfile: Dockerfile
+    image: confusedcrib/insecure-js:latest
+
+  insecure-api:
+    build:
+      context: ./insecure-api
+      dockerfile: Dockerfile
+    image: confusedcrib/insecure-api:latest
+
+  workload-security-evaluator:
+    build:
+      context: ./workload-security-evaluator
+      dockerfile: Dockerfile
+    image: confusedcrib/workload-security-evaluator:latest

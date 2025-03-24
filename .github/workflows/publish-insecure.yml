@@ -17,23 +17,23 @@ jobs:
         image-data:
           - name: insecure-app
             image: confusedcrib/insecure-app
-            context: .
+            context: ./insecure-app
             dockerfile: ./insecure-app/Dockerfile
           - name: insecure-java
             image: confusedcrib/insecure-java
-            context: .
+            context: ./insecure-java
             dockerfile: ./insecure-java/Dockerfile
           - name: insecure-js
             image: confusedcrib/insecure-js
-            context: .
+            context: ./insecure-js
             dockerfile: ./insecure-js/Dockerfile
           - name: workload-security-evaluator
             image: confusedcrib/workload-security-evaluator
-            context: .
+            context: ./workload-security-evaluator
             dockerfile: ./workload-security-evaluator/Dockerfile
           - name: insecure-api
             image: confusedcrib/insecure-api
-            context: .
+            context: ./insecure-api
             dockerfile: ./insecure-api/Dockerfile
 
     steps:

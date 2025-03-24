@@ -4,12 +4,15 @@ FROM python:3.9-slim
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy only the requirements.txt first
+COPY requirements.txt /app/requirements.txt
 
-# Install any needed packages specified in requirements.txt
+# Install dependencies
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
+
+# Then copy the rest of the application
+COPY . /app
 
 # Expose port 8000 for the app to run on
 EXPOSE 8000
