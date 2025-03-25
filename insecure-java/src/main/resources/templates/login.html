@@ -7,7 +7,7 @@
     <h2>Login</h2>
     <!-- Vulnerability: Broken Authentication - Insecure authentication mechanism without proper session handling. -->
     <p><strong>Note:</strong> The login process lacks secure session management and uses plaintext passwords.</p>
-    <form action="#" th:action="@{/login}" method="post">
+    <form action="#" th:action="@{/java/login}" method="post">
         <label>Username: <input type="text" name="username" value="user1" /></label><br/>
         <label>Password: <input type="password" name="password" value="password123" /></label><br/>
         <button type="submit">Login</button>

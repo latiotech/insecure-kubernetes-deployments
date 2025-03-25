@@ -30,7 +30,10 @@ const hostname = '0.0.0.0';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
-  if (req.method === 'GET' && req.url === '/styles.css') {
+  // Remove /js prefix from the URL for processing
+  const path = req.url.replace(/^\/js/, '');
+
+  if (req.method === 'GET' && path === '/styles.css') {
     fs.readFile(path.join(__dirname, 'styles.css'), (err, data) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -231,11 +234,11 @@ const server = http.createServer((req, res) => {
     res.end(`
       <html>
         <head>
-          <link rel="stylesheet" href="styles.css">
+          <link rel="stylesheet" href="/js/styles.css">
         </head>
         <body>
           <h2>Package Vulnerability Demo</h2>
-          <form action="/" method="POST">
+          <form action="/js" method="POST">
             <!-- Direct SQL Injection via sqlite -->
             <div>
                 <h3>2. Sequelize Injection</h3>

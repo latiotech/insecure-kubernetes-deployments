@@ -15,6 +15,7 @@ app = FastAPI(
         "name": "Your Name",
         "email": "your.email@example.com",
     },
+    root_path="/api"
 )
 
 # Initialize the SQLite database

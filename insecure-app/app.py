@@ -11,7 +11,8 @@ aws_secret = 'v5xpjkWYoy45fGKFSMajSn+sqs22WI2niacX9yO5'
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/app', methods=['GET', 'POST'])
+@app.route('/app/', methods=['GET', 'POST'])
 def index():
     output = ''
     # 1 - SQL Injection
@@ -102,7 +103,7 @@ def index():
         <hr>
 
         <!-- Command Injection -->
-        <form action="/" method="post">
+        <form action="/app" method="post">
             <h2>Command Injection</h2>
             <input type="text" name="command" value="ls -la">
             <input type="submit" value="Run">
@@ -110,7 +111,7 @@ def index():
         <br>
 
         <!-- File Upload -->
-        <form action="/" method="post" enctype="multipart/form-data">
+        <form action="/app" method="post" enctype="multipart/form-data">
             <h2>Path Traversal via File Upload</h2>
             <input type="file" name="file">
             <input type="submit" value="Upload">
@@ -119,7 +120,7 @@ def index():
         <br>
 
         <!-- SQL Injection -->
-        <form action="/" method="post">
+        <form action="/app" method="post">
             <h2>SQL Injection</h2>
             <input type="text" name="sql" value="SELECT * FROM users WHERE username = 'admin' OR '1'='1'">
             <input type="submit" value="Run">
@@ -127,14 +128,14 @@ def index():
         <br>
 
         <!-- Cross-Site Scripting (XSS) -->
-        <form action="/" method="post">
+        <form action="/app" method="post">
             Enter XSS payload: <input type="text" name="xss" value="<script>alert('XSS');</script>">
             <input type="submit" value="Run">
         </form>
         <br>
 
         <!-- XML External Entity (XXE) Injection -->
-        <form action="/" method="post">
+        <form action="/app" method="post">
             <h2>XML External Entity (XXE) Injection</h2>
             <textarea name="xml" rows="5" cols="50">
 <?xml version="1.0"?>
@@ -148,7 +149,7 @@ def index():
         <br>
 
         <!-- Server-Side Request Forgery (SSRF) -->
-        <form action="/" method="post">
+        <form action="/app" method="post">
             <h2>Server-Side Request Forgery (SSRF)</h2>
             <input type="text" name="url" value="http://localhost:8080/">
             <input type="submit" value="Request">
@@ -156,7 +157,7 @@ def index():
         <br>
         <!-- SQL Injection 2 -->
         <h2>SQL Injection 2</h2>
-        <form action="/" method="post">
+        <form action="/app" method="post">
             Enter Username: <input type="text" name="username" value="' UNION SELECT username || ' : ' || password FROM users --">
             <input type="submit" value="Lookup">
         </form>
