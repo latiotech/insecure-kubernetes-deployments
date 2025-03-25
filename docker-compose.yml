@@ -6,27 +6,46 @@ services:
       context: ./insecure-app
       dockerfile: Dockerfile
     image: confusedcrib/insecure-app:latest
+    ports:
+      - "8080:8080"  # Changed from 5000 to match README
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Needed if app interacts with Docker
 
   insecure-java:
     build:
       context: ./insecure-java
       dockerfile: Dockerfile
     image: confusedcrib/insecure-java:latest
+    ports:
+      - "8081:8080"  # Changed host port to 8081, container still uses 8080
 
   insecure-js:
     build:
       context: ./insecure-js
       dockerfile: Dockerfile
     image: confusedcrib/insecure-js:latest
+    ports:
+      - "3000:3000"  # Node.js app port
+    environment:
+      - NODE_ENV=development
 
   insecure-api:
     build:
       context: ./insecure-api
       dockerfile: Dockerfile
     image: confusedcrib/insecure-api:latest
+    ports:
+      - "8000:8000"  # FastAPI/Uvicorn port
+    environment:
+      - PYTHONUNBUFFERED=1
 
   workload-security-evaluator:
     build:
       context: ./workload-security-evaluator
       dockerfile: Dockerfile
     image: confusedcrib/workload-security-evaluator:latest
+
+networks:
+  default:
+    name: insecure-network
+    driver: bridge

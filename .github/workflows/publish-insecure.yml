@@ -51,6 +51,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ matrix.image-data.image }}
+          tags: |
+            type=raw,value=latest
+            type=schedule,pattern=nightly
+            type=semver,pattern={{version}}
       
       - name: Build and push ${{ matrix.image-data.name }} Docker image
         uses: docker/build-push-action@v4
