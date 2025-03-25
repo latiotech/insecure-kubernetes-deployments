@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.insecureApi.namespace }}
+  namespace: {{ .Values.insecureApp.namespace }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.insecureApi.appName }}
+  namespace: {{ .Values.insecureApi.namespace }}
+spec:
+  replicas: {{ .Values.insecureApi.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.insecureApi.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.insecureApi.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.insecureApi.containerName }}
+        image: {{ .Values.insecureApi.image.repository }}:{{ .Values.insecureApi.image.tag }}
+        ports:
+        - containerPort: {{ .Values.insecureApi.containerPort }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.insecureApi.service.name }}
+  namespace: {{ .Values.insecureApi.namespace }}
+spec:
+  selector:
+    app: {{ .Values.insecureApi.appName }}
+  ports:
+  - port: {{ .Values.insecureApi.service.port }}
+    targetPort: {{ .Values.insecureApi.service.targetPort }}
+  type: ClusterIP 

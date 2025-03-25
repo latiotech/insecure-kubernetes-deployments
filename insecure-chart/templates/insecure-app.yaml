@@ -39,7 +39,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: insecure-app
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.insecureApp.namespace }}
 spec:
   type: NodePort
   selector:
@@ -68,7 +68,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: insecure-app-sa
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.insecureApp.namespace }}
   apiGroup: ""
 roleRef:
   kind: ClusterRole
@@ -79,4 +79,4 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: insecure-app-sa
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.insecureApp.namespace }}

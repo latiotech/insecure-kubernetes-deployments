@@ -33,7 +33,7 @@ busybox:
   command: ["sleep", "3600"]
 
 insecureApp:
-  namespace: default
+  namespace: insecure-app
   appName: insecure-app
   replicas: 1
   image:
@@ -44,7 +44,7 @@ insecureApp:
     ssh: 22
 
 workloadSecurityEvaluator:
-  namespace: default
+  namespace: workload-security
   appName: workload-security-evaluator
   replicas: 1
   image:
