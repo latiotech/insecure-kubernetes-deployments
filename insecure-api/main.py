@@ -138,7 +138,7 @@ def search_games(query: str):
     return results
 
 # Additional vulnerable endpoint: Improper assets management
-@app.get("/.env")
+@app.get("/env")
 def get_env():
     # Vulnerability: Sensitive files are exposed (API9:2019 - Improper Assets Management)
     return {"SECRET_KEY": "supersecretkey"}
