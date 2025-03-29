@@ -31,9 +31,9 @@ const port = 3000;
 
 const server = http.createServer((req, res) => {
   // Remove /js prefix from the URL for processing
-  const path = req.url.replace(/^\/js/, '');
+  const requestPath = req.url.replace(/^\/js/, '');
 
-  if (req.method === 'GET' && path === '/styles.css') {
+  if (req.method === 'GET' && requestPath === '/styles.css') {
     fs.readFile(path.join(__dirname, 'styles.css'), (err, data) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -68,6 +68,8 @@ const server = http.createServer((req, res) => {
       // Vulnerability: Missing SameSite Attribute on Cookies
       res.setHeader('Set-Cookie', `sessionToken=insecureToken; Path=/; HttpOnly; SameSite=None`);
       res.setHeader('Content-Type', 'text/html');
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('X-XSS-Protection', '0'); // Disable browser XSS protection for testing
 
       // Placeholder for secret key 
       const SECRET_KEY = process.env.SECRET_KEY || 'PLACEHOLDER_SECRET_KEY';

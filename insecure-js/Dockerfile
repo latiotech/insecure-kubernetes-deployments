@@ -4,13 +4,7 @@ FROM node:16
 RUN mkdir /app
 WORKDIR /app
 
-# Add application files
-COPY package.json /app/
-COPY server.js /app/
-COPY init_db.js /app/
-
-# Install dependencies using Yarn
-RUN npm install --legacy-peer-deps
+COPY . .
 
 EXPOSE 3000
 

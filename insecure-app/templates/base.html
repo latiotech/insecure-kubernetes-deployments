@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Insecure App - Hacker's Playground{% endblock %}</title>
+    <style>
+        :root {
+            --neon-green: #00ff00;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --terminal-text: #00ff00;
+            --error-red: #ff3333;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--terminal-text);
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--darker-bg);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        h1 {
+            color: var(--neon-green);
+            text-align: center;
+            text-shadow: 0 0 10px var(--neon-green);
+            margin-bottom: 30px;
+        }
+
+        .vulnerability-section {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .vulnerability-section:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            color: var(--neon-green);
+            margin-top: 0;
+            border-bottom: 1px solid var(--neon-green);
+            padding-bottom: 5px;
+        }
+
+        input[type="text"], input[type="file"], textarea {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--neon-green);
+            color: var(--terminal-text);
+            padding: 8px;
+            width: 100%;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: var(--darker-bg);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--neon-green);
+            color: var(--darker-bg);
+        }
+
+        code {
+            background-color: rgba(0, 255, 0, 0.1);
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: var(--neon-green);
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .glitch-text {
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
+            15% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
+            16% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
+            49% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
+            50% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
+            99% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
+            100% { text-shadow: -0.05em 0 0 #00fffc, -0.025em -0.04em 0 #fc00ff, -0.04em -0.025em 0 #fffc00; }
+        }
+
+        pre {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+        }
+
+        a {
+            color: var(--neon-green);
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--neon-green);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: var(--neon-green);
+            color: var(--darker-bg);
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.createElement('canvas');
+        canvas.classList.add('matrix-bg');
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+        const charArray = chars.split('');
+        const fontSize = 14;
+        const columns = canvas.width/fontSize;
+        const drops = [];
+
+        for(let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+    </script>
+</body>
+</html> 

@@ -64,3 +64,10 @@ terraform/.terraform.lock.hcl
 terraform/.terraform.tfstate.lock.info
 node_modules
 node_modules
+
+# Terraform
+*.tfvars
+*.tfvars.json
+.terraform/
+*.tfstate
+*.tfstate.*

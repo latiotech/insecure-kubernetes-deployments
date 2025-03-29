@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Insecure App - Hacker's Playground{% endblock %}
+
+{% block content %}
+<h1 class="glitch-text">Insecure App - Hacker's Playground</h1>
+<hr>
+
+<div class="vulnerability-section">
+    <h2>Command Injection</h2>
+    <form action="{{ form_action }}" method="post">
+        <input type="text" name="command" value="ls -la" placeholder="Enter your command...">
+        <input type="submit" value="Execute Command">
+    </form>
+</div>
+
+<div class="vulnerability-section">
+    <h2>Path Traversal via File Upload</h2>
+    <form action="{{ form_action }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload File">
+    </form>
+    <p>Try uploading a file named: <code>../../../../etc/passwd</code></p>
+</div>
+
+<div class="vulnerability-section">
+    <h2>SQL Injection</h2>
+    <form action="{{ form_action }}" method="post">
+        <input type="text" name="sql" value="SELECT * FROM users WHERE username = 'admin' OR '1'='1'" placeholder="Enter your SQL query...">
+        <input type="submit" value="Execute Query">
+    </form>
+</div>
+
+<div class="vulnerability-section">
+    <h2>Cross-Site Scripting (XSS)</h2>
+    <form action="{{ form_action }}" method="post">
+        <input type="text" name="xss" value="<script>alert('XSS');</script>" placeholder="Enter your XSS payload...">
+        <input type="submit" value="Test XSS">
+    </form>
+</div>
+
+<div class="vulnerability-section">
+    <h2>XML External Entity (XXE) Injection</h2>
+    <form action="{{ form_action }}" method="post">
+        <textarea name="xml" rows="5" placeholder="Enter your XML payload..."><?xml version="1.0"?>
+<!DOCTYPE root [
+<!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<root>&xxe;</root></textarea>
+        <input type="submit" value="Parse XML">
+    </form>
+</div>
+
+<div class="vulnerability-section">
+    <h2>Server-Side Request Forgery (SSRF)</h2>
+    <form action="{{ form_action }}" method="post">
+        <input type="text" name="url" value="http://localhost:8080/" placeholder="Enter target URL...">
+        <input type="submit" value="Send Request">
+    </form>
+</div>
+
+<div class="vulnerability-section">
+    <h2>SQL Injection 2</h2>
+    <form action="{{ form_action }}" method="post">
+        <input type="text" name="username" value="' UNION SELECT username || ' : ' || password FROM users --" placeholder="Enter username...">
+        <input type="submit" value="Lookup User">
+    </form>
+</div>
+{% endblock %} 

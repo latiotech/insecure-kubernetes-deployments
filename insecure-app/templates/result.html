@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Insecure App - Results{% endblock %}
+
+{% block content %}
+<h1 class="glitch-text">Execution Results</h1>
+<hr>
+<pre>{{ output|safe }}</pre>
+<br>
+<a href="{{ script_name }}/">Back to Hacker's Playground</a>
+{% endblock %} 

@@ -2,13 +2,15 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ .Values.insecureApi.namespace }}
-  namespace: {{ .Values.insecureApp.namespace }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.insecureApi.appName }}
   namespace: {{ .Values.insecureApi.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.insecureApi.replicas }}
   selector:
@@ -30,10 +32,39 @@ kind: Service
 metadata:
   name: {{ .Values.insecureApi.service.name }}
   namespace: {{ .Values.insecureApi.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   selector:
     app: {{ .Values.insecureApi.appName }}
   ports:
   - port: {{ .Values.insecureApi.service.port }}
     targetPort: {{ .Values.insecureApi.service.targetPort }}
-  type: ClusterIP 
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: insecure-api-ingress
+  namespace: {{ .Values.insecureApi.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /api/?(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Values.insecureApi.service.name }}
+            port:
+              number: {{ .Values.insecureApi.service.port }} 

@@ -4,6 +4,9 @@ FROM ubuntu:20.04
 # Avoid interactive dialog during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Set SCRIPT_NAME for ingress-nginx
+ENV SCRIPT_NAME=/app
+
 # Install Python, pip, and Docker CLI
 RUN apt-get update && \
     apt-get install -y python3 python3-pip curl apt-transport-https ca-certificates software-properties-common && \
@@ -21,6 +24,7 @@ WORKDIR /app
 # Add application and requirements.txt
 COPY app.py /app/
 COPY requirements.txt /app/
+COPY templates /app/templates/
 
 # Install Python packages from requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.txt

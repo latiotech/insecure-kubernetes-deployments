@@ -23,24 +23,71 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.insecureJava.appName | default "insecure-java" }}
-  namespace: {{ .Values.insecureJava.namespace | default "insecure-java" }}
+  name: {{ .Values.insecureJava.appName }}
+  namespace: {{ .Values.insecureJava.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.insecureJava.replicas | default 1 }}
+  replicas: {{ .Values.insecureJava.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.insecureJava.appName | default "insecure-java" }}
+      app: {{ .Values.insecureJava.appName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.insecureJava.appName | default "insecure-java" }}
+        app: {{ .Values.insecureJava.appName }}
     spec:
       containers:
         - name: {{ .Values.insecureJava.containerName | default "insecure-java" }}
-          image: "{{ .Values.insecureJava.image.repository }}:{{ .Values.insecureJava.image.tag | default "latest" }}"
+          image: "{{ .Values.insecureJava.image.repository }}:{{ .Values.insecureJava.image.tag }}"
           env:
             - name: NODE_OPTIONS
               value: "--perf-basic-prof --interpreted-frames-native-stack"
           ports:
             - containerPort: {{ .Values.insecureJava.containerPort | default 3000 }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: insecure-java
+  namespace: {{ .Values.insecureJava.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: {{ .Values.insecureJava.appName }}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: insecure-java-ingress
+  namespace: {{ .Values.insecureJava.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /java/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: insecure-java
+                port:
+                  number: 8080
 
