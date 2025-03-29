@@ -6,20 +6,11 @@ import sqlite3
 import os
 import requests
 from fastapi.responses import RedirectResponse
+from contextlib import asynccontextmanager
 
-app = FastAPI(
-    title="Intentionally Insecure Video Game API",
-    description="An API designed for security education, demonstrating common vulnerabilities.",
-    version="1.0.0",
-    contact={
-        "name": "Your Name",
-        "email": "your.email@example.com",
-    },
-    root_path="/api"
-)
-
-# Initialize the SQLite database
-def init_db():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize the SQLite database
     if not os.path.exists('videogames.db'):
         conn = sqlite3.connect('videogames.db')
         cursor = conn.cursor()
@@ -42,11 +33,21 @@ def init_db():
             ''', (game.id, game.title, game.developer, game.publisher, game.year_published, game.sales))
         conn.commit()
         conn.close()
+    yield
 
-# Call the init_db function when the app starts
-@app.on_event("startup")
-def startup_event():
-    init_db()
+app = FastAPI(
+    title="Intentionally Insecure Video Game API",
+    description="An API designed for security education, demonstrating common vulnerabilities.",
+    version="1.0.0",
+    contact={
+        "name": "Your Name",
+        "email": "your.email@example.com",
+    },
+    root_path="/api",
+    docs_url="/",
+    redoc_url="/redoc",
+    lifespan=lifespan
+)
 
 # Public endpoint to get basic video game info
 @app.get("/games")
