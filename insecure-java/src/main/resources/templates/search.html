@@ -1,19 +1,135 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search Pictures</title>
+    <title>Search Cats - Cat App</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+        }
+        .nav {
+            background: #333;
+            padding: 1rem;
+            color: white;
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        .nav-links a:hover {
+            background: #444;
+        }
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-user span {
+            color: #ddd;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .note {
+            background: #fff3cd;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Search Cat Pictures</h2>
-    <!-- Vulnerability: SQL Injection - User input is directly concatenated into SQL queries. -->
-    <p><strong>Note:</strong> This search is vulnerable to SQL Injection attacks. Malicious SQL code can be injected via the name field.</p>
-    <form action="#" th:action="@{/search}" method="post">
-        <label>Name: <input type="text" name="name" value="' OR '1'='1" /></label><br/>
-        <button type="submit">Search</button>
-    </form>
-    <p>Example Payload:</p>
-    <ul>
-        <li>Name: <code>' OR '1'='1</code></li>
-    </ul>
+    <!-- Navigation Bar -->
+    <nav class="nav" th:if="${session.userId != null}">
+        <div class="nav-content">
+            <a th:href="@{/}" class="nav-brand">Cat App</a>
+            <div class="nav-links">
+                <a th:href="@{/}">Home</a>
+                <a th:href="@{/profile(userId=${session.userId})}">My Profile</a>
+                <a th:href="@{/search}">Search Cats</a>
+                <a th:href="@{/comments}">Comments</a>
+            </div>
+            <div class="nav-user">
+                <span th:text="${session.username}"></span>
+                <a th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div th:fragment="content">
+            <div class="search-container">
+                <h2>Search Cat Pictures</h2>
+                <!-- Vulnerability: SQL Injection - Raw SQL query with user input -->
+                <div class="note">
+                    <strong>Note:</strong> This search is vulnerable to SQL injection attacks.
+                </div>
+                <form action="#" th:action="@{/search}" method="post">
+                    <div class="form-group">
+                        <label>Cat Name:</label>
+                        <input type="text" name="name" required />
+                    </div>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

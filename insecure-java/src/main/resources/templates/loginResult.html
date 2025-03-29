@@ -2,10 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
+        .success { color: green; }
+        .error { color: red; }
+        .note { background: #fff3cd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+    </style>
 </head>
 <body>
     <h2 th:text="${message}"></h2>
     <!-- Educational Note: The lack of secure session management can lead to unauthorized access. -->
-    <p><strong>Note:</strong> The application does not implement secure session management, making it vulnerable to attacks.</p>
+    <div class="note">
+        <strong>Note:</strong> The application does not implement secure session management, making it vulnerable to attacks.
+    </div>
+    <p>Redirecting to home page...</p>
+    <script>
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 2000);
+    </script>
 </body>
 </html>

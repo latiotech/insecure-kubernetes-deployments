@@ -10,6 +10,6 @@ import java.util.List;
 public interface CatPictureRepository extends JpaRepository<CatPicture, Integer> {
 
     // Vulnerable method using a raw query with user input
-    @Query(value = "?1", nativeQuery = true)
-    List<CatPicture> findByNameQuery(String query);
+    @Query(value = "SELECT * FROM cat_pictures WHERE name = ?1", nativeQuery = true)
+    List<CatPicture> findByNameQuery(String name);
 }

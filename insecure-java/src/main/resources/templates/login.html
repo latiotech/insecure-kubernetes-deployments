@@ -1,21 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <title>Login - Cat App</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+            background: #f8f9fa;
+        }
+        .nav {
+            background: #333;
+            padding: 1rem;
+            color: white;
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 10px 15px; 
+            border: none; 
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover { background: #45a049; }
+        .error { color: red; margin-top: 10px; }
+        .note { background: #fff3cd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .auth-links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .auth-links a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <!-- Vulnerability: Broken Authentication - Insecure authentication mechanism without proper session handling. -->
-    <p><strong>Note:</strong> The login process lacks secure session management and uses plaintext passwords.</p>
-    <form action="#" th:action="@{/java/login}" method="post">
-        <label>Username: <input type="text" name="username" value="user1" /></label><br/>
-        <label>Password: <input type="password" name="password" value="password123" /></label><br/>
-        <button type="submit">Login</button>
-    </form>
-    <p>Example Credentials:</p>
-    <ul>
-        <li>Username: <code>user1</code></li>
-        <li>Password: <code>password123</code></li>
-    </ul>
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a th:href="@{/}" class="nav-brand">Cat App</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div th:fragment="content">
+            <div class="login-container">
+                <h2>Login</h2>
+                <!-- Vulnerability: Broken Authentication - Insecure authentication mechanism without proper session handling. -->
+                <div class="note">
+                    <strong>Note:</strong> The login process lacks secure session management and uses plaintext passwords.
+                </div>
+                <form action="#" th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" name="username" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" name="password" required />
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div th:if="${error}" class="error" th:text="${error}"></div>
+                <div class="auth-links">
+                    <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+                </div>
+                <div class="note">
+                    <p>Example Credentials:</p>
+                    <ul>
+                        <li>Username: <code>admin</code></li>
+                        <li>Password: <code>admin123</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

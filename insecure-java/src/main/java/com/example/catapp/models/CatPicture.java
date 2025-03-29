@@ -34,19 +34,19 @@ public class CatPicture {
         this.name = name;
     }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public int getOwnerId() {
-		return ownerId;
-	}
+    public int getOwnerId() {
+        return ownerId;
+    }
 
-	public void setOwnerId(int ownerId) {
-		this.ownerId = ownerId;
-	}
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
 }

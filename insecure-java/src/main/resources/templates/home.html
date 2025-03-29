@@ -1,25 +1,183 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home - Cat Picture App</title>
+    <title>Home - Cat App</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+        }
+        .nav {
+            background: #333;
+            padding: 1rem;
+            color: white;
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        .nav-links a:hover {
+            background: #444;
+        }
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-user span {
+            color: #ddd;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .welcome-section {
+            text-align: center;
+            padding: 3rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .welcome-section h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .welcome-section p {
+            color: #666;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .welcome-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .feature-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .feature-card p {
+            color: #666;
+            margin: 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            background: #45a049;
+        }
+        .note {
+            margin-top: 2rem;
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Cat Picture App</h1>
-        <nav>
-            <a th:href="@{/register}">Register</a> |
-            <a th:href="@{/login}">Login</a> |
-            <a th:href="@{/addComment}">Add Comment</a> |
-            <a th:href="@{/comments}">View Comments</a> |
-            <a th:href="@{/search}">Search Pictures</a> |
-            <a th:href="@{/delete}">Delete Picture</a>
-            <a th:href="@{/profile(userId=1)}">View Profile</a> |
-            <a th:href="@{/editProfile(userId=1)}">Edit Profile</a> |
-        </nav>
-    </header>
-    <main>
-        <p>This application demonstrates various security vulnerabilities for educational purposes.</p>
-        <p>Please select an option from the menu above to explore the functionalities.</p>
-    </main>
+    <!-- Navigation Bar -->
+    <nav class="nav" th:if="${session.userId != null}">
+        <div class="nav-content">
+            <a th:href="@{/}" class="nav-brand">Cat App</a>
+            <div class="nav-links">
+                <a th:href="@{/}">Home</a>
+                <a th:href="@{/profile(userId=${session.userId})}">My Profile</a>
+                <a th:href="@{/search}">Search Cats</a>
+                <a th:href="@{/comments}">Comments</a>
+            </div>
+            <div class="nav-user">
+                <span th:text="${session.username}"></span>
+                <a th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Welcome to Cat App</h1>
+            <p th:if="${session.userId == null}">
+                Share your favorite cat pictures, leave comments, and connect with other cat lovers!
+            </p>
+            <p th:if="${session.userId != null}">
+                Welcome back, <span th:text="${session.username}"></span>! Ready to share more cat pictures?
+            </p>
+            <div class="welcome-buttons" th:if="${session.userId == null}">
+                <a th:href="@{/login}" class="cta-button">Login</a>
+                <a th:href="@{/register}" class="cta-button">Register</a>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features">
+            <div class="feature-card">
+                <h3>Share Cat Pictures</h3>
+                <p>Upload and share your favorite cat pictures with the community.</p>
+                <a th:if="${session.userId != null}" th:href="@{/search}" class="cta-button">Browse Cats</a>
+                <a th:if="${session.userId == null}" th:href="@{/login}" class="cta-button">Login to Share</a>
+            </div>
+            <div class="feature-card">
+                <h3>Leave Comments</h3>
+                <p>Engage with other users by leaving comments on their cat pictures.</p>
+                <a th:if="${session.userId != null}" th:href="@{/comments}" class="cta-button">View Comments</a>
+                <a th:if="${session.userId == null}" th:href="@{/login}" class="cta-button">Login to Comment</a>
+            </div>
+            <div class="feature-card">
+                <h3>Search Pictures</h3>
+                <p>Find specific cat pictures using our search feature.</p>
+                <a th:if="${session.userId != null}" th:href="@{/search}" class="cta-button">Search Now</a>
+                <a th:if="${session.userId == null}" th:href="@{/login}" class="cta-button">Login to Search</a>
+            </div>
+        </div>
+
+        <!-- Vulnerability Note -->
+        <div class="note">
+            <strong>Note:</strong> This application contains intentional security vulnerabilities for educational purposes.
+            Please do not use this code in a production environment.
+        </div>
+    </div>
 </body>
 </html>

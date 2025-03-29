@@ -1,21 +1,107 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register</title>
+    <title>Register - Cat App</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+            background: #f8f9fa;
+        }
+        .nav {
+            background: #333;
+            padding: 1rem;
+            color: white;
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .register-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 10px 15px; 
+            border: none; 
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover { background: #45a049; }
+        .error { color: red; margin-top: 10px; }
+        .note { background: #fff3cd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .auth-links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .auth-links a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Register</h2>
-    <!-- Vulnerability: Broken Authentication - Passwords are stored in plaintext without strength validation. -->
-    <p><strong>Note:</strong> This application stores passwords in plaintext. Please use a simple password for testing purposes.</p>
-    <form action="#" th:action="@{/register}" method="post">
-        <label>Username: <input type="text" name="username" value="user1" /></label><br/>
-        <label>Password: <input type="password" name="password" value="password123" /></label><br/>
-        <button type="submit">Register</button>
-    </form>
-    <p>Example Payload:</p>
-    <ul>
-        <li>Username: <code>user1</code></li>
-        <li>Password: <code>password123</code></li>
-    </ul>
+    <!-- Navigation Bar -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a th:href="@{/}" class="nav-brand">Cat App</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div th:fragment="content">
+            <div class="register-container">
+                <h2>Register</h2>
+                <!-- Vulnerability: Broken Authentication - Insecure registration with plaintext passwords -->
+                <div class="note">
+                    <strong>Note:</strong> The registration process stores passwords in plaintext and lacks proper input validation.
+                </div>
+                <form action="#" th:action="@{/register}" method="post">
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" name="username" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" name="password" required />
+                    </div>
+                    <button type="submit">Register</button>
+                </form>
+                <div th:if="${error}" class="error" th:text="${error}"></div>
+                <div class="auth-links">
+                    <p>Already have an account? <a th:href="@{/login}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
