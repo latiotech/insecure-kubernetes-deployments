@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: busybox-deployment
+  name: busybox
   namespace: {{ .Values.busybox.namespace }}
   labels:
     app: busybox
@@ -17,4 +17,5 @@ spec:
     spec:
       containers:
       - name: busybox
-        image: busybox
+        image: {{ .Values.busybox.image }}
+        command: {{ toYaml .Values.busybox.command | nindent 8 }}

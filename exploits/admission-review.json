@@ -1,0 +1,46 @@
+{
+    "apiVersion": "admission.k8s.io/v1",
+    "kind": "AdmissionReview",
+    "request": {
+      "kind": {
+        "group": "networking.k8s.io",
+        "version": "v1",
+        "kind": "Ingress"
+      },
+      "resource": {
+        "group": "",
+        "version": "v1",
+        "resource": "namespaces"
+      },
+      "operation": "CREATE",
+      "object": {
+        "metadata": {
+          "name": "example-ingress"
+        },
+        "spec": {
+          "ingressClassName": "nginx",
+          "rules": [
+            {
+              "host": "foo.com",
+              "http": {
+                "paths": [
+                  {
+                    "path": "/",
+                    "pathType": "Prefix",
+                    "backend": {
+                      "service": {
+                        "name": "kubernetes",
+                        "port": {
+                          "number": 80
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
