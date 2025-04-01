@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Security Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.2/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.2/mode/python/python.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/codemirror@5.65.2/lib/codemirror.css" rel="stylesheet">
+    <!-- Add marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Add highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <style>
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+        }
+        /* Markdown styles */
+        .markdown-content {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+        }
+        .markdown-content h1 { font-size: 2em; margin-bottom: 0.5em; }
+        .markdown-content h2 { font-size: 1.5em; margin-bottom: 0.5em; }
+        .markdown-content h3 { font-size: 1.25em; margin-bottom: 0.5em; }
+        .markdown-content p { margin-bottom: 1em; }
+        .markdown-content code {
+            background-color: #f6f8fa;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        }
+        .markdown-content pre {
+            background-color: #f6f8fa;
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        .markdown-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        .markdown-content ul, .markdown-content ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+        .markdown-content li {
+            margin-bottom: 0.5em;
+        }
+        .markdown-content blockquote {
+            border-left: 4px solid #dfe2e5;
+            padding-left: 1em;
+            margin-left: 1em;
+            color: #6a737d;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">Code Security Analyzer</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Analyze Your Code</h2>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
+                    Paste your code here:
+                </label>
+                <textarea id="code" class="w-full h-64 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2">
+                    Or upload a ZIP file:
+                </label>
+                <input type="file" id="file" accept=".zip" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            
+            <button onclick="analyzeCode()" id="analyze-btn" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Analyze Code
+            </button>
+        </div>
+        
+        <div id="loading" class="hidden">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Analyzing your code... This may take a few minutes.</div>
+        </div>
+        
+        <div id="result" class="bg-white rounded-lg shadow-lg p-6 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-gray-700">Analysis Results</h2>
+                <button onclick="openInNewTab()" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                    View in New Tab
+                </button>
+            </div>
+            <div id="result-content" class="markdown-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize CodeMirror
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "python",
+            lineNumbers: true,
+            theme: "default",
+            lineWrapping: true
+        });
+
+        let statusCheckInterval;
+        let currentAnalysisId = null;
+
+        // Configure marked.js
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true
+        });
+
+        function checkStatus(analysisId) {
+            fetch(`{{ url_for('get_status', analysis_id='') }}${analysisId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'completed' || data.status === 'error') {
+                        clearInterval(statusCheckInterval);
+                        document.getElementById('loading').classList.add('hidden');
+                        document.getElementById('analyze-btn').disabled = false;
+                        
+                        const resultDiv = document.getElementById('result');
+                        const resultContent = document.getElementById('result-content');
+                        
+                        if (data.status === 'error') {
+                            resultContent.innerHTML = `<div class="text-red-600">Error: ${data.result}</div>`;
+                        } else {
+                            resultContent.innerHTML = marked.parse(data.result);
+                            // Apply syntax highlighting to code blocks
+                            resultContent.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        }
+                        
+                        resultDiv.classList.remove('hidden');
+                        currentAnalysisId = analysisId;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    clearInterval(statusCheckInterval);
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('analyze-btn').disabled = false;
+                    alert('An error occurred while checking the analysis status');
+                });
+        }
+
+        function openInNewTab() {
+            if (currentAnalysisId) {
+                window.open(`{{ url_for('view_result', analysis_id='') }}${currentAnalysisId}`, '_blank');
+            }
+        }
+
+        function analyzeCode() {
+            const code = editor.getValue();
+            const fileInput = document.getElementById('file');
+            const formData = new FormData();
+            
+            if (code.trim()) {
+                formData.append('code', code);
+            } else if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            } else {
+                alert('Please provide either code or a file to analyze');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('analyze-btn').disabled = true;
+            document.getElementById('result').classList.add('hidden');
+
+            fetch('{{ url_for("analyze") }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Start polling for status
+                statusCheckInterval = setInterval(() => checkStatus(data.analysis_id), 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('analyze-btn').disabled = false;
+                alert('An error occurred while starting the analysis');
+            });
+        }
+    </script>
+</body>
+</html> 

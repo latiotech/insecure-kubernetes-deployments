@@ -35,6 +35,10 @@ jobs:
             image: confusedcrib/insecure-api
             context: ./insecure-api
             dockerfile: ./insecure-api/Dockerfile
+          - name: insecure-ai
+            image: confusedcrib/insecure-ai
+            context: ./insecure-ai
+            dockerfile: ./insecure-ai/Dockerfile
 
     steps:
       - name: Check out the repo
