@@ -67,3 +67,20 @@ insecureApi:
     repository: confusedcrib/insecure-api
     tag: latest
   containerPort: 8000
+
+insecureAi:
+  namespace: insecure-ai
+  appName: insecure-ai
+  containerName: insecure-ai
+  service:
+    name: insecure-ai
+    port: 80
+    targetPort: 5000
+  replicas: 1
+  image:
+    repository: confusedcrib/insecure-ai
+    tag: latest
+  containerPort: 5000
+  env:
+    openaiApiKey: ""
+    geminiApiKey: ""
