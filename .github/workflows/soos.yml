@@ -1,0 +1,63 @@
+on: [push]
+
+jobs:
+  soos-sca-analysis:
+    name: SOOS SCA Scan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Run SOOS Scan
+      uses: soos-io/soos-sca-github-action@v2
+      with:
+        client_id: ${{ secrets.SOOS_CLIENT_ID }}
+        api_key: ${{ secrets.SOOS_API_KEY }}
+        project_name: ${{ github.event.repository.name }}
+
+  soos-dast-scan:
+    name: SOOS DAST Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run SOOS DAST Scan
+        uses: soos-io/soos-dast-github-action@v2
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: ${{ github.event.repository.name }}
+          target_url: https://latio.tech
+  
+  soos-csa-analysis:
+    name: SOOS CSA Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run SOOS CSA Analysis
+        uses: soos-io/soos-csa-github-action@v1
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: ${{ github.event.repository.name }}
+          target_image: confusedcrib/insecure-ai:latest
+
+  soos-sbom-scan:
+    name: SOOS SBOM Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run SOOS SBOM Scan
+        uses: soos-io/soos-sbom-github-action@v1
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: ${{ github.event.repository.name }}
+          sbom_path: "bom.json"
+  
+  soos-sast-scan:
+    name: SOOS SAST Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run SOOS SAST Scan
+        uses: soos-io/soos-sast-github-action@v1
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: ${{ github.event.repository.name }}
