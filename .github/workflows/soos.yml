@@ -1,38 +1,38 @@
 on: [push]
 
 jobs:
-  soos-sca-analysis:
-    name: SOOS SCA Scan
+  soos-security-scans:
+    name: SOOS Security Scans
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-    
-    - name: Install Semgrep
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install semgrep
-    
-    - name: Run Semgrep Scan
-      run: |
-        semgrep scan --verbose --metrics=off --config=p/default --config=p/owasp-top-ten --config=p/cwe-top-25 --sarif --sarif-output=semgrep.sarif.json .
-    
-    - name: Run SOOS Scan
-      uses: soos-io/soos-sca-github-action@v2
-      with:
-        client_id: ${{ secrets.SOOS_CLIENT_ID }}
-        api_key: ${{ secrets.SOOS_API_KEY }}
-        project_name: ${{ github.event.repository.name }}
-        persist_credentials: false
-
-  soos-dast-scan:
-    name: SOOS DAST Scan
-    runs-on: ubuntu-latest
-    steps:
+      - uses: actions/checkout@master
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install cyclonedx-cli opengrep
+      
+      - name: Run OpenGrep Scan
+        run: |
+          opengrep scan --verbose --config=p/default --config=p/owasp-top-ten --config=p/cwe-top-25 --sarif --sarif-output=opengrep.sarif.json .
+      
+      - name: Generate CycloneDX SBOM
+        run: |
+          cyclonedx-py -o bom.json
+      
+      - name: Run SOOS SCA Scan
+        uses: soos-io/soos-sca-github-action@v2
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: ${{ github.event.repository.name }}
+          persist_credentials: false
+      
       - name: Run SOOS DAST Scan
         uses: soos-io/soos-dast-github-action@v2
         with:
@@ -41,11 +41,7 @@ jobs:
           project_name: ${{ github.event.repository.name }}
           target_url: https://latio.tech
           persist_credentials: false
-          
-  soos-csa-analysis:
-    name: SOOS CSA Analysis
-    runs-on: ubuntu-latest
-    steps:
+      
       - name: Run SOOS CSA Analysis
         uses: soos-io/soos-csa-github-action@v1
         with:
@@ -54,11 +50,7 @@ jobs:
           project_name: ${{ github.event.repository.name }}
           target_image: confusedcrib/insecure-ai:latest
           persist_credentials: false
-  soos-sbom-scan:
-    name: SOOS SBOM Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+      
       - name: Run SOOS SBOM Scan
         uses: soos-io/soos-sbom-github-action@v1
         with:
@@ -67,11 +59,7 @@ jobs:
           project_name: ${{ github.event.repository.name }}
           sbom_path: "bom.json"
           persist_credentials: false
-  soos-sast-scan:
-    name: SOOS SAST Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+      
       - name: Run SOOS SAST Scan
         uses: soos-io/soos-sast-github-action@v1
         with:
