@@ -29,12 +29,14 @@ jobs:
       
       - name: Generate CycloneDX SBOMs
         run: |
-          find . -name "requirements.txt" | while read -r req; do
-            dir=$(dirname "$req")
-            dir_name=$(basename "$dir")
-            echo "Generating BOM for $dir_name..."
-            cyclonedx-py requirements -i "$req" -o "bom_${dir_name}.json"
-          done
+          FIRST_REQ=$(find . -name "requirements.txt" -type f | head -n 1)
+          if [ -n "$FIRST_REQ" ]; then
+            echo "Generating BOM from $FIRST_REQ..."
+            cyclonedx-py requirements -i "$FIRST_REQ" -o "bom.json"
+          else
+            echo "No requirements.txt found"
+            exit 1
+          fi
       
       - name: Run SOOS SCA Scan
         uses: soos-io/soos-sca-github-action@v2
