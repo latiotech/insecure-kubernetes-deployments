@@ -53,7 +53,7 @@ jobs:
           target_image: confusedcrib/insecure-ai:latest
           persist_credentials: false
       
-      - name: Run SOOS SBOM Scan
+      - name: Generate CycloneDX SBOM
         run: |
           FIRST_REQ=$(find . -name "requirements.txt" -type f | head -n 1)
           if [ -n "$FIRST_REQ" ]; then
@@ -66,14 +66,15 @@ jobs:
             echo "No requirements.txt found"
             exit 1
           fi
-          
-          uses: soos-io/soos-sbom-github-action@v1
-          with:
-            client_id: ${{ secrets.SOOS_CLIENT_ID }}
-            api_key: ${{ secrets.SOOS_API_KEY }}
-            project_name: ${{ github.event.repository.name }}
-            sbom_path: "bom.cdx.json"
-            persist_credentials: false
+      
+      - name: Run SOOS SBOM Scan
+        uses: soos-io/soos-sbom-github-action@v1
+        with:
+          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+          api_key: ${{ secrets.SOOS_API_KEY }}
+          project_name: ${{ github.event.repository.name }}
+          sbom_path: "bom.cdx.json"
+          persist_credentials: false
       
       - name: Run SOOS SAST Scan
         uses: soos-io/soos-sast-github-action@v1
