@@ -31,8 +31,11 @@ jobs:
         run: |
           FIRST_REQ=$(find . -name "requirements.txt" -type f | head -n 1)
           if [ -n "$FIRST_REQ" ]; then
+            DIR=$(dirname "$FIRST_REQ")
             echo "Generating BOM from $FIRST_REQ..."
-            cyclonedx-py requirements -i "$FIRST_REQ" -o "bom.json"
+            cd "$DIR"
+            cyclonedx-py requirements -i "requirements.txt" -o "../bom.json"
+            cd - > /dev/null
           else
             echo "No requirements.txt found"
             exit 1
