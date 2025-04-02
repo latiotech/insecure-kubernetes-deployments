@@ -33,7 +33,7 @@ jobs:
             dir=$(dirname "$req")
             dir_name=$(basename "$dir")
             echo "Generating BOM for $dir_name..."
-            cyclonedx-py -i "$req" -o "bom_${dir_name}.json"
+            cyclonedx-py requirements -i "$req" -o "bom_${dir_name}.json"
           done
       
       - name: Run SOOS SCA Scan
