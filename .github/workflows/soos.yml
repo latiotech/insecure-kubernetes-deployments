@@ -27,9 +27,14 @@ jobs:
         run: |
           opengrep scan --verbose --config=p/default --config=p/owasp-top-ten --config=p/cwe-top-25 --sarif --sarif-output=opengrep.sarif.json .
       
-      - name: Generate CycloneDX SBOM
+      - name: Generate CycloneDX SBOMs
         run: |
-          cyclonedx-py -o bom.json
+          find . -name "requirements.txt" | while read -r req; do
+            dir=$(dirname "$req")
+            dir_name=$(basename "$dir")
+            echo "Generating BOM for $dir_name..."
+            cyclonedx-py -i "$req" -o "bom_${dir_name}.json"
+          done
       
       - name: Run SOOS SCA Scan
         uses: soos-io/soos-sca-github-action@v2
@@ -63,7 +68,7 @@ jobs:
           client_id: ${{ secrets.SOOS_CLIENT_ID }}
           api_key: ${{ secrets.SOOS_API_KEY }}
           project_name: ${{ github.event.repository.name }}
-          sbom_path: "bom.json"
+          sbom_path: "bom_*.json"
           persist_credentials: false
       
       - name: Run SOOS SAST Scan
