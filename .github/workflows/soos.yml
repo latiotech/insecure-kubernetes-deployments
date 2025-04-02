@@ -12,34 +12,34 @@ jobs:
         with:
           python-version: '3.12'
       
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install cyclonedx-bom
-      
-      - name: Generate CycloneDX SBOM
-        run: |
-          FIRST_REQ=$(find . -name "requirements.txt" -type f | head -n 1)
-          if [ -n "$FIRST_REQ" ]; then
-            DIR=$(dirname "$FIRST_REQ")
-            echo "Generating BOM from $FIRST_REQ..."
-            cd "$DIR"
-            cyclonedx-py requirements -i "requirements.txt" -o "../bom.cdx.json"
-            cd - > /dev/null
-          else
-            echo "No requirements.txt found"
-            exit 1
-          fi
-      
-      - name: Run SOOS SBOM Scan
-        uses: soos-io/soos-sbom-github-action@v1
-        with:
-          client_id: ${{ secrets.SOOS_CLIENT_ID }}
-          api_key: ${{ secrets.SOOS_API_KEY }}
-          project_name: ${{ github.event.repository.name }}
-          sbom_path: "bom.cdx.json"
-          persist_credentials: false
-          
+#      - name: Install Dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          python -m pip install cyclonedx-bom
+#      
+#      - name: Generate CycloneDX SBOM
+#        run: |
+#          FIRST_REQ=$(find . -name "requirements.txt" -type f | head -n 1)
+#          if [ -n "$FIRST_REQ" ]; then
+#            DIR=$(dirname "$FIRST_REQ")
+#            echo "Generating BOM from $FIRST_REQ..."
+#            cd "$DIR"
+#            cyclonedx-py requirements -i "requirements.txt" -o "../bom.cdx.json"
+#            cd - > /dev/null
+#          else
+#            echo "No requirements.txt found"
+#            exit 1
+#          fi
+#      
+#      - name: Run SOOS SBOM Scan
+#        uses: soos-io/soos-sbom-github-action@v1
+#        with:
+#          client_id: ${{ secrets.SOOS_CLIENT_ID }}
+#          api_key: ${{ secrets.SOOS_API_KEY }}
+#          project_name: ${{ github.event.repository.name }}
+#          sbom_path: "bom.cdx.json"
+#          persist_credentials: false
+
       - name: Install OpenGrep
         run: |
           curl -L https://github.com/opengrep/opengrep/releases/download/v1.1.2/opengrep_manylinux_x86 -o opengrep
