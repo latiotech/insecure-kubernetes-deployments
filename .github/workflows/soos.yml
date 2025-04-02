@@ -15,7 +15,13 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install cyclonedx-cli opengrep
+          python -m pip install cyclonedx-bom
+      
+      - name: Install OpenGrep
+        run: |
+          curl -L https://github.com/opengrep/opengrep/releases/download/v1.1.2/opengrep_manylinux_x86 -o opengrep
+          chmod +x opengrep
+          sudo mv opengrep /usr/local/bin/
       
       - name: Run OpenGrep Scan
         run: |
