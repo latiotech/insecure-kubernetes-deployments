@@ -4,6 +4,10 @@ FROM node:16
 RUN mkdir /app
 WORKDIR /app
 
+# Copy package files first for better caching
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
 COPY . .
 
 EXPOSE 3000

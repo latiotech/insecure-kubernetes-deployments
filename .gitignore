@@ -71,3 +71,7 @@ node_modules
 .terraform/
 *.tfstate
 *.tfstate.*
+
+
+#Ignore cursor AI rules
+.cursor/rules/codacy.mdc
