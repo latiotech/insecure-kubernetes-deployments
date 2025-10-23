@@ -1,7 +1,7 @@
 flask==3.0.2
 latio==1.2.5
 python-magic==0.4.27
-Werkzeug==3.0.1 
+Werkzeug==3.0.6 
 markdown==3.5.2
 graphviz==0.20.1
 gunicorn==23.0.0
